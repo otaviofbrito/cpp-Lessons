@@ -3,6 +3,8 @@
 
 using namespace std;
 
+
+
 typedef struct car
 {
   string model;
@@ -12,41 +14,57 @@ typedef struct car
   int km;
   string engine;
   string gas;
-  string cambio;
+  string gear;
   string steering;
   string color;
   string doors;
   string plate;
 };
 
+void printCar(int i,struct car *dcar[50])
+{
+  cout << "model: " << dcar[i]->model << endl;
+  cout << "brand: " << dcar[i]->brand << endl;
+  cout << "type: " << dcar[i]->type << endl;
+  cout << "year: " << dcar[i]->year << endl;
+  cout << "KMs: " << dcar[i]->km << endl;
+  cout << "engine: " << dcar[i]->engine << endl;
+  cout << "gas: " << dcar[i]->gas << endl;
+  cout << "gear: " << dcar[i]->gear << endl;
+  cout << "steering: " << dcar[i]->steering << endl;
+  cout << "color: " << dcar[i]->color << endl;
+  cout << "doors: " << dcar[i]->doors << endl;
+  cout << "plate: " << dcar[i]->plate << endl;
+}
+
 int main(int argc, char const *argv[])
 {
 
-  car *bd[50];
+  struct car *bd[50];
 
-  ofstream myfile;
+  int i = 1;
+  ifstream myfile;
   myfile.open("cars.txt");
   if (myfile.is_open())
   {
-    while (!myfile.eof())
+    while (!myfile.eof() && i < 50)
     {
-      for (int i = 0; i < 50; i++)
-      {
-        bd[i] = new car;
-        bd[i]->model;
-        bd[i]->brand;
-        bd[i]->type;
-        bd[i]->year;
-        bd[i]->km;
-        bd[i]->engine;
-        bd[i]->gas;
-        bd[i]->cambio;
-        bd[i]->steering;
-        bd[i]->color;
-        bd[i]->doors;
-        bd[i]->plate;
-      }
+      bd[i] = new car;
+      myfile >> bd[i]->model;
+      myfile >> bd[i]->brand;
+      myfile >> bd[i]->type;
+      myfile >> bd[i]->year;
+      myfile >> bd[i]->km;
+      myfile >> bd[i]->engine;
+      myfile >> bd[i]->gas;
+      myfile >> bd[i]->gear;
+      myfile >> bd[i]->steering;
+      myfile >> bd[i]->color;
+      myfile >> bd[i]->doors;
+      myfile >> bd[i]->plate;
+      i++;
     }
+    printCar(3, bd);
     myfile.close();
   }
   else

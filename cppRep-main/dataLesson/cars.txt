@@ -1,5 +1,3 @@
-# modelo marca tipo ano km potência_do_motor combustível câmbio direção cor portas placa
-
 KA FORD Hatch 2019 34055 1.5 Flex Manual Hidráulica Branco 4 PWE4815
 DUSTER RENAULT SUV 2020 40135 1.6 Flex Automático Elétrica Branco 4 JHE7846
 CAPTUR RENAULT Hatch 2019 39184 2.0 Flex Automático Elétrica Branco 4 QWE4572
