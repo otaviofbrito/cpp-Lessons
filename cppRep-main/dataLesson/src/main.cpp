@@ -18,7 +18,7 @@ typedef struct car
   string doors;
   string plate;
 };
-
+/*
 void printCar(int i, struct car *dcar[50])
 {
   cout << "model: " << dcar[i]->model << endl;
@@ -33,15 +33,18 @@ void printCar(int i, struct car *dcar[50])
   cout << "color: " << dcar[i]->color << endl;
   cout << "doors: " << dcar[i]->doors << endl;
   cout << "plate: " << dcar[i]->plate << endl;
-}
+}*/
 
-
-
-car *carSearch(int tam, car *dcar[], string plate){
-  for(int i = 0; i < tam; i++){
-    if(plate == dcar[i]->plate){
+car *carSearch(int tam, struct car *dcar[], string plate)
+{
+  for (int i = 0; i < tam; i++)
+  {
+    if (plate == dcar[i]->plate)
+    {
       return dcar[i];
-    } else {
+    }
+    else
+    {
       return NULL;
     }
   }
@@ -54,7 +57,7 @@ int main(int argc, char const *argv[])
 
   int i = 0;
   ifstream myfile;
-  myfile.open("cars.txt");
+  myfile.open("./cars.txt");
   if (myfile.is_open())
   {
     while (!myfile.eof())
@@ -76,20 +79,21 @@ int main(int argc, char const *argv[])
     }
     myfile.close();
 
-    car * p = carSearch(i, bd, "UEL4562");
-    if(p){
-      cout << "Car found";
-    } else {
-      cout << "Car not found";
-    }
-
-
     while (i < 50)
     {
       bd[i] = NULL;
       i++;
     }
 
+    car *p = carSearch(i, bd, "aaa");
+    if (p)
+    {
+      cout << "Car found";
+    }
+    else
+    {
+      cout << "Car not found";
+    }
     /*
     for (int k = 0; k < 50; k++)
     {
@@ -106,8 +110,6 @@ int main(int argc, char const *argv[])
       cout << "doors: " << bd[k]->doors << endl;
       cout << "plate: " << bd[k]->plate << endl;
     }*/
-
-
 
     for (int k = 0; k < i; k++)
     {
