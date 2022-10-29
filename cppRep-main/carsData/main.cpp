@@ -41,7 +41,7 @@ void removeCarro(int index, int tam, car *dcar[])
 
 int insertCar(struct car *dcar[], int tam)
 {
-  if (tam < 50) // não está cheia. 
+  if (tam < 50) // não está cheia.
   {
     string v_plate;
     cout << "Enter vehicle license plate: ";
@@ -54,11 +54,11 @@ int insertCar(struct car *dcar[], int tam)
         return tam;
       }
     }
-    
+
     dcar[tam] = new car;
     dcar[tam]->plate = v_plate;
     cout << "Model: ";
-    cin >> dcar[tam] ->model;
+    cin >> dcar[tam]->model;
 
     cout << "Brand: ";
     cin >> dcar[tam]->brand;
@@ -90,8 +90,8 @@ int insertCar(struct car *dcar[], int tam)
     cout << "Doors: ";
     cin >> dcar[tam]->doors;
 
-    //cout << "plate: ";
-    //cin >> dcar[tam]->plate;
+    // cout << "plate: ";
+    // cin >> dcar[tam]->plate;
 
     cout << "price: ";
     cin >> dcar[tam]->price;
@@ -103,7 +103,6 @@ int insertCar(struct car *dcar[], int tam)
   return tam + 1;
 }
 
-
 int buscaCarro(int tam, car *dcar[], string plate)
 {
 
@@ -112,8 +111,8 @@ int buscaCarro(int tam, car *dcar[], string plate)
     if (plate == dcar[i]->plate)
     {
       string resposta;
-      cout << "Car found!" << endl;
-      cout << "Do you want remove this car(y/n)?" << endl;
+      cout << "\n >" << dcar[i]->brand << " " << dcar[i]->model << " FOUND!" << endl;
+      cout << "Do you want remove this car(y/n)?: ";
       cin >> resposta;
       while (resposta != "y" && resposta != "n")
       {
@@ -124,12 +123,15 @@ int buscaCarro(int tam, car *dcar[], string plate)
       {
         removeCarro(i, tam, dcar);
         tam--;
+        cout << "\nCAR WAS REMOVED SUCCESSFULLY!\n"
+             << "*--------------✓------------*" << endl;
       }
       return tam;
     }
   }
 
-  cout << "Car not found!" << endl;
+  cout << "\n\tCAR NOT FOUND!"
+       << "\n--------------X--------------" << endl;
   return tam;
 }
 
@@ -238,18 +240,19 @@ int menu_db()
   int resposta;
   string in_placa;
 
-  cout << "Digite a opção desejada: " << endl;
+  cout << "\n*----------MENU----------*" << endl;
   cout << "1 - Busca pela placa." << endl;
   cout << "2 - Busca pelor valor" << endl;
   cout << "3 - Inclusão de um novo veículo" << endl;
   cout << "4 - Ordenação dos veículos " << endl;
   cout << "5 - Quit" << endl;
+  cout << "SELECT AN OPTION: ";
 
   cin >> resposta;
 
   while (resposta <= 0 || resposta > 5)
   {
-    cout << "SELECT AN AVAILABLE OPTION!" << endl;
+    cout << "SELECT AN AVAILABLE OPTION!: ";
     cin >> resposta;
   }
   return resposta;
@@ -288,8 +291,6 @@ int main(int argc, char const *argv[])
 
     car_database.close();
 
-
-
     int k = i;
     while (k < 50)
     {
@@ -297,19 +298,15 @@ int main(int argc, char const *argv[])
       k++;
     }
 
-     for (int c = 0; c < 50; c++) { 
-     sort[c] = NULL; 
-     sort_by_price[c] = NULL; 
-     }
-
-
+    for (int c = 0; c < 50; c++)
+    {
+      sort[c] = NULL;
+      sort_by_price[c] = NULL;
+    }
 
     string rPlate;
     int slct;
     int q = 0;
-
-
-
 
     while (q >= 0)
     {
@@ -342,14 +339,10 @@ int main(int argc, char const *argv[])
       }
     }
 
-
-
     for (int k = 0; k < i; k++)
     {
-      delete(bd[k]);
+      delete (bd[k]);
     }
-
-
   }
   else
   {
