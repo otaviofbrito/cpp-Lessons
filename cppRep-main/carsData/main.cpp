@@ -41,7 +41,7 @@ void removeCarro(int index, int tam, car *dcar[])
 
 int insertCar(struct car *dcar[], int tam)
 {
-  if (tam < 50) // não está cheia.
+  if (tam < 50) // não está cheia. 
   {
     string v_plate;
     cout << "Enter vehicle license plate: ";
@@ -54,11 +54,11 @@ int insertCar(struct car *dcar[], int tam)
         return tam;
       }
     }
-
+    
     dcar[tam] = new car;
     dcar[tam]->plate = v_plate;
     cout << "Model: ";
-    cin >> dcar[tam]->model;
+    cin >> dcar[tam] ->model;
 
     cout << "Brand: ";
     cin >> dcar[tam]->brand;
@@ -90,8 +90,8 @@ int insertCar(struct car *dcar[], int tam)
     cout << "Doors: ";
     cin >> dcar[tam]->doors;
 
-    // cout << "plate: ";
-    // cin >> dcar[tam]->plate;
+    //cout << "plate: ";
+    //cin >> dcar[tam]->plate;
 
     cout << "price: ";
     cin >> dcar[tam]->price;
@@ -102,6 +102,7 @@ int insertCar(struct car *dcar[], int tam)
   }
   return tam + 1;
 }
+
 
 int buscaCarro(int tam, car *dcar[], string plate)
 {
@@ -119,7 +120,7 @@ int buscaCarro(int tam, car *dcar[], string plate)
         cout << "SELECT AN AVAILABLE OPTION!" << endl;
         cin >> resposta;
       }
-      if (resposta == "s")
+      if (resposta == "y")
       {
         removeCarro(i, tam, dcar);
         tam--;
@@ -152,28 +153,6 @@ void ordenaCarro(int tam, car *dcar[], car *ordenado[])
         ordenado[j] = ordenado[j + 1];
         ordenado[j + 1] = aux;
       }
-    }
-  }
-
-  ofstream sortPlate;
-  sortPlate.open("ordenado.txt");
-  if (sortPlate.is_open())
-  {
-    for (int w = 0; w < tam; w++)
-    {
-      sortPlate << ordenado[w]->model << " ";
-      sortPlate << ordenado[w]->brand << " ";
-      sortPlate << ordenado[w]->type << " ";
-      sortPlate << ordenado[w]->year << " ";
-      sortPlate << ordenado[w]->km << " ";
-      sortPlate << ordenado[w]->engine << " ";
-      sortPlate << ordenado[w]->gas << " ";
-      sortPlate << ordenado[w]->gear << " ";
-      sortPlate << ordenado[w]->steering << " ";
-      sortPlate << ordenado[w]->color << " ";
-      sortPlate << ordenado[w]->doors << " ";
-      sortPlate << ordenado[w]->plate << " ";
-      sortPlate << ordenado[w]->price << endl;
     }
   }
 }
@@ -309,6 +288,8 @@ int main(int argc, char const *argv[])
 
     car_database.close();
 
+
+
     int k = i;
     while (k < 50)
     {
@@ -316,15 +297,19 @@ int main(int argc, char const *argv[])
       k++;
     }
 
-    for (int c = 0; c < 50; c++)
-    {
-      sort[c] = NULL;
-      sort_by_price[c] = NULL;
-    }
+     for (int c = 0; c < 50; c++) { 
+     sort[c] = NULL; 
+     sort_by_price[c] = NULL; 
+     }
+
+
 
     string rPlate;
     int slct;
     int q = 0;
+
+
+
 
     while (q >= 0)
     {
@@ -357,10 +342,14 @@ int main(int argc, char const *argv[])
       }
     }
 
-    for (int k = 0; k < 50; k++)
+
+
+    for (int k = 0; k < i; k++)
     {
-      delete (bd[k]);
+      delete(bd[k]);
     }
+
+
   }
   else
   {
