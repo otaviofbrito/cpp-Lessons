@@ -4,6 +4,7 @@
 #include <iostream>
 #include <string>
 #include <algorithm>
+#include <climits>
 
 using namespace std;
 
@@ -47,6 +48,7 @@ int insertCar(struct car *dcar[], int tam)
     string v_plate;
     cout << "\nEnter vehicle license plate: ";
     cin >> v_plate;
+    transform(v_plate.begin(), v_plate.end(), v_plate.begin(), ::toupper);
     for (int i = 0; i < tam; i++)
     {
       if (dcar[i]->plate == v_plate)
@@ -83,6 +85,9 @@ int insertCar(struct car *dcar[], int tam)
       cin >> dcar[0]->doors;
       cout << "price: ";
       cin >> dcar[0]->price;
+
+      cout << "\nCAR STORED SUCCESSFULLY!\n"
+           << "*--------------✓------------*\n";
       return tam;
     }
     else
@@ -113,12 +118,16 @@ int insertCar(struct car *dcar[], int tam)
       cin >> dcar[tam]->doors;
       cout << "price: ";
       cin >> dcar[tam]->price;
+
+      cout << "\nCAR STORED SUCCESSFULLY!\n"
+           << "*--------------✓------------*\n";
       return tam + 1;
     }
   }
   else
   {
-    cout << "Database is Full" << endl;
+    cout << "Database is Full"
+         << "\n--------------X--------------" << endl;
   }
   return tam;
 }
@@ -126,7 +135,7 @@ int insertCar(struct car *dcar[], int tam)
 int buscaCarro(int tam, car *dcar[], string plate)
 {
 
-  for (int i = 1; i < tam; i++)
+  for (int i = 0; i < tam; i++)
   {
     if (plate == dcar[i]->plate)
     {
@@ -387,7 +396,7 @@ void saveFile(int tam, car *dcar[])
       car_database << dcar[c]->price;
 
       car_database.close();
-      cout << "DATABASE UPDATED!"
+      cout << "\nDATABASE UPDATED!"
            << "\n*--------------✓------------*" << endl;
     }
     else
@@ -403,18 +412,19 @@ int menu_db()
   string in_placa;
 
   cout << "\n*----------MENU----------*" << endl;
-  cout << "1 - Busca pela placa." << endl;
-  cout << "2 - Busca pelor valor" << endl;
-  cout << "3 - Inclusão de um novo veículo" << endl;
-  cout << "4 - Ordenação dos veículos " << endl;
+  cout << "1 - Busca pela placa" << endl;
+  cout << "2 - Filtrar valores proximos" << endl;
+  cout << "3 - Incluir um novo veículo" << endl;
+  cout << "4 - Ordenar veículos " << endl;
   cout << "5 - Salvar alterações" << endl;
-  cout << "6 - Quit" << endl;
+  cout << "6 - Sair" << endl;
   cout << "SELECT AN OPTION: ";
-
   cin >> resposta;
 
-  while (resposta <= 0 || resposta > 6)
+  while (resposta <= 0 || resposta > 6 || cin.fail())
   {
+    cin.clear();
+    cin.ignore(INT_MAX, '\n');
     cout << "SELECT AN AVAILABLE OPTION!: ";
     cin >> resposta;
   }
@@ -478,6 +488,7 @@ int main(int argc, char const *argv[])
       {
         cout << "Enter vehicle license plate: ";
         cin >> rPlate;
+        transform(rPlate.begin(), rPlate.end(), rPlate.begin(), ::toupper);
         i = buscaCarro(i, bd, rPlate);
       }
       else if (slct == 2)
