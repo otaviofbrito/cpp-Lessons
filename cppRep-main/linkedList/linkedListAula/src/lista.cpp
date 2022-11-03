@@ -78,14 +78,7 @@ tLista *encerra_lista(tLista *ptlista)
 
 no *busca(tLista *ptlista, int valor)
 {
-  for (int i = 0; i < ptlista->tam; i++)
-  {
-    if (ptlista->lista->valor == valor)
-    {
-      return ptlista->lista;
-    }
-  }
-  return NULL;
+  tLista *ant = ptlista;
 }
 
 /**
@@ -115,18 +108,21 @@ void insere_inicio(tLista *ptlista, int valor)
 
 void insere_fim(tLista *ptlista, int valor)
 {
-  if (ptlista->lista == NULL)
-  {
-    insere_inicio(ptlista, valor)
-  }
-  else
-  {
+  no *ant = ptlista->lista;
+  no *pont = ptlista->lista;
 
-    no *p = new (no);
-    p->valor = valor;
-    p->prox = NULL;
-    ptlista->lista = p;
-    ptlista->tam++;
+  while (ant != NULL)
+  {
+    pont = ant->prox;
+    if (pont == NULL)
+    {
+      no *p = new (no);
+      p->valor = valor;
+      p->prox = NULL;
+      ant->prox = p;
+      ptlista->tam++;
+    }
+    ant = pont;
   }
 }
 
@@ -140,20 +136,17 @@ void insere_fim(tLista *ptlista, int valor)
 
 no *remove_inicio(tLista *ptlista)
 {
-
-  no *ant = ptlista->lista;
-
-  no *pont = ptlista->lista;
-
-  while (ant != NULL)
+  if (ptlista->lista == NULL)
   {
-
-    pont = ant->prox;
-
-    ant = pont;
+    return NULL;
   }
-
-  busca(ptlista, );
+  else
+  {
+    no *p = ptlista->lista;
+    ptlista->lista = p->prox;
+    ptlista->tam--;
+    return p;
+  }
 }
 
 /**
@@ -166,6 +159,28 @@ no *remove_inicio(tLista *ptlista)
 
 no *remove_fim(tLista *ptlista)
 {
+
+  if (ptlista->lista == NULL)
+  {
+    return NULL;
+  }
+  else
+  {
+    no *ant = ptlista->lista;
+    no *pont = ptlista->lista;
+
+    while (ant != NULL)
+    {
+      pont = ant->prox;
+      if (pont->prox == NULL)
+      {
+        ant->prox = NULL;
+        ptlista->tam--;
+        return pont;
+      }
+      ant = pont;
+    }
+  }
 }
 
 /**
@@ -176,4 +191,11 @@ no *remove_fim(tLista *ptlista)
 
 void imprime(tLista *ptlista)
 {
+  no *p = ptlista->lista;
+  while (p != NULL)
+  {
+    cout << p->valor << " ";
+    p = p->prox;
+  }
+  cout << "\n";
 }
