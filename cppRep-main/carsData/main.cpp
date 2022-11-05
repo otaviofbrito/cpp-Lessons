@@ -1,4 +1,8 @@
-
+/*
+    TRABALHO 1 - AEDS 2 - 01 Gerenciador de Busca de Carros, Vans e Utilitários -
+    OTAVIO FERREIRA DE BRITO SILVEIRA RA:2022.1.08.O23
+    ALICIA GARNIER DUARTE FRANCO RA:2022.1.08.001
+*/
 #include <fstream>
 #include <iomanip>
 #include <iostream>
@@ -25,6 +29,8 @@ struct car
   double price;
 };
 
+
+
 void removeCar(int index, int tam, car *dcar[])
 {
   delete (dcar[index]);
@@ -49,17 +55,9 @@ int insertCar(struct car *dcar[], int tam)
     cout << "\nEnter vehicle license plate: ";
     cin >> v_plate;
     transform(v_plate.begin(), v_plate.end(), v_plate.begin(), ::toupper);
-    for (int i = 0; i < tam; i++)
+    if (dcar[0] == NULL)
     {
-      if (dcar[i]->plate == v_plate)
-      {
-        cout << "\nCAR ALREADY IN DATABASE!\n"
-             << "------------------------" << endl;
-        return tam;
-      }
-    }
-    if (dcar[0]->plate == "")
-    {
+      dcar[0] = new car;
       dcar[0]->plate = v_plate;
       cout << "Model: ";
       cin >> dcar[0]->model;
@@ -92,41 +90,50 @@ int insertCar(struct car *dcar[], int tam)
     }
     else
     {
-      dcar[tam] = new car;
-      dcar[tam]->plate = v_plate;
-      cout << "Model: ";
-      cin >> dcar[tam]->model;
-      cout << "Brand: ";
-      cin >> dcar[tam]->brand;
-      cout << "Type: ";
-      cin >> dcar[tam]->type;
-      cout << "Year: ";
-      cin >> dcar[tam]->year;
-      cout << "KMs: ";
-      cin >> dcar[tam]->km;
-      cout << "Engine: ";
-      cin >> dcar[tam]->engine;
-      cout << "Gas type: ";
-      cin >> dcar[tam]->gas;
-      cout << "Gear: ";
-      cin >> dcar[tam]->gear;
-      cout << "Steering: ";
-      cin >> dcar[tam]->steering;
-      cout << "Color: ";
-      cin >> dcar[tam]->color;
-      cout << "Doors: ";
-      cin >> dcar[tam]->doors;
-      cout << "price: ";
-      cin >> dcar[tam]->price;
+      for (int i = 0; i < tam; i++)
+      {
+        if (dcar[i]->plate == v_plate)
+        {
+          cout << "\nCAR ALREADY IN DATABASE!\n"
+               << "------------------------" << endl;
+          return tam;
+        }
+        dcar[tam] = new car;
+        dcar[tam]->plate = v_plate;
+        cout << "Model: ";
+        cin >> dcar[tam]->model;
+        cout << "Brand: ";
+        cin >> dcar[tam]->brand;
+        cout << "Type: ";
+        cin >> dcar[tam]->type;
+        cout << "Year: ";
+        cin >> dcar[tam]->year;
+        cout << "KMs: ";
+        cin >> dcar[tam]->km;
+        cout << "Engine: ";
+        cin >> dcar[tam]->engine;
+        cout << "Gas type: ";
+        cin >> dcar[tam]->gas;
+        cout << "Gear: ";
+        cin >> dcar[tam]->gear;
+        cout << "Steering: ";
+        cin >> dcar[tam]->steering;
+        cout << "Color: ";
+        cin >> dcar[tam]->color;
+        cout << "Doors: ";
+        cin >> dcar[tam]->doors;
+        cout << "price: ";
+        cin >> dcar[tam]->price;
 
-      cout << "\nCAR STORED SUCCESSFULLY!\n"
-           << "*--------------✓------------*\n";
-      return tam + 1;
+        cout << "\nCAR STORED SUCCESSFULLY!\n"
+             << "*--------------✓------------*\n";
+        return tam + 1;
+      }
     }
   }
   else
   {
-    cout << "Database is Full"
+    cout << "\nDATABASE IS FULL!"
          << "\n--------------X--------------" << endl;
   }
   return tam;
@@ -134,7 +141,6 @@ int insertCar(struct car *dcar[], int tam)
 
 int buscaCarro(int tam, car *dcar[], string plate)
 {
-
   for (int i = 0; i < tam; i++)
   {
     if (plate == dcar[i]->plate)
@@ -154,7 +160,10 @@ int buscaCarro(int tam, car *dcar[], string plate)
       if (resposta == "y")
       {
         removeCar(i, tam, dcar);
-        tam--;
+        if (tam > 1)
+        {
+          tam--;
+        }
         cout << "\nCAR WAS REMOVED SUCCESSFULLY!\n"
              << "*--------------✓------------*" << endl;
       }
@@ -169,7 +178,7 @@ int buscaCarro(int tam, car *dcar[], string plate)
 
 void ordenaCarro(int tam, car *dcar[], car *ordenado[])
 {
-  if (dcar[0]->plate == "")
+  if (dcar[0] == NULL)
   {
     cout << "\nDATABASE IS EMPTY!\n"
          << "--------------X--------------" << endl;
@@ -354,18 +363,18 @@ void findElementsByPrice(car *dcar[], int target, int v, int tam)
 
 void saveFile(int tam, car *dcar[])
 {
-  if (dcar[0]->plate == "")
+  ofstream car_database;
+  car_database.open("./cars.txt");
+  if (car_database.is_open())
   {
-    cout << "\nFAILED TO SAVE FILE(DATABASE IS EMPTY!)\n";
-  }
-  else
-  {
-    ofstream car_database;
-    car_database.open("./cars.txt");
-    if (car_database.is_open())
+    if (dcar[0] == NULL)
     {
-      int c;
-      for (c = 0; c < tam - 1; c++)
+      car_database << "";
+    }
+    else
+    {
+      int c = 0;
+      for (c; c < tam - 1; c++)
       {
         car_database << dcar[c]->model << " ";
         car_database << dcar[c]->brand << " ";
@@ -399,10 +408,10 @@ void saveFile(int tam, car *dcar[])
       cout << "\nDATABASE UPDATED!"
            << "\n*--------------✓------------*" << endl;
     }
-    else
-    {
-      cout << "UNABLE TO OVERWRITE FILE" << endl;
-    }
+  }
+  else
+  {
+    cout << "UNABLE TO OVERWRITE FILE" << endl;
   }
 }
 
@@ -464,6 +473,12 @@ int main(int argc, char const *argv[])
 
     car_database.close();
 
+    if (bd[0]->plate == "")
+    {
+      delete (bd[0]);
+      bd[0] = NULL;
+    }
+
     int k = i;
     while (k < 50)
     {
@@ -486,18 +501,32 @@ int main(int argc, char const *argv[])
       slct = menu_db();
       if (slct == 1)
       {
-        cout << "Enter vehicle license plate: ";
-        cin >> rPlate;
-        transform(rPlate.begin(), rPlate.end(), rPlate.begin(), ::toupper);
-        i = buscaCarro(i, bd, rPlate);
+        if (bd[0] == NULL)
+        {
+          cout << "\nDATABASE IS EMPTY!" << endl;
+        }
+        else
+        {
+          cout << "Enter vehicle license plate: ";
+          cin >> rPlate;
+          transform(rPlate.begin(), rPlate.end(), rPlate.begin(), ::toupper);
+          i = buscaCarro(i, bd, rPlate);
+        }
       }
       else if (slct == 2)
       {
-        float r_price;
-        cout << "Enter price range: ";
-        cin >> r_price;
-        sortPrice(i, bd, sort_by_price);
-        findElementsByPrice(sort_by_price, r_price, 10, i);
+        if (bd[0] == NULL)
+        {
+          cout << "\nDATABASE IS EMPTY!" << endl;
+        }
+        else
+        {
+          float r_price;
+          cout << "Enter price range: ";
+          cin >> r_price;
+          sortPrice(i, bd, sort_by_price);
+          findElementsByPrice(sort_by_price, r_price, 10, i);
+        }
       }
       else if (slct == 3)
       {
@@ -505,7 +534,14 @@ int main(int argc, char const *argv[])
       }
       else if (slct == 4)
       {
-        ordenaCarro(i, bd, sort);
+        if (bd[0] == NULL)
+        {
+          cout << "\nDATABASE IS EMPTY!" << endl;
+        }
+        else
+        {
+          ordenaCarro(i, bd, sort);
+        }
       }
       else if (slct == 5)
       {

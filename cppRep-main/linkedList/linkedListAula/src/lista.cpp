@@ -78,7 +78,11 @@ tLista *encerra_lista(tLista *ptlista)
 
 no *busca(tLista *ptlista, int valor)
 {
-  tLista *ant = ptlista;
+  no *ant = ptlista->lista;
+  no *pont = ptlista->lista;
+  while(ant != NULL){
+    
+  }
 }
 
 /**
