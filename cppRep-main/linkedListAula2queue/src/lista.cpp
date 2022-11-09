@@ -115,6 +115,14 @@ void insere_fim(tLista *ptlista, int valor)
   no *ant = ptlista->lista;
   no *pont = ptlista->lista;
 
+  if(ant == NULL){
+    no *p = new(no);
+    p->valor = valor;
+    p->prox = NULL;
+    ptlista->lista = p; 
+    ptlista->tam++;
+  }
+
   while (ant != NULL)
   {
     pont = ant->prox;
@@ -163,27 +171,37 @@ no *remove_inicio(tLista *ptlista)
 
 no *remove_fim(tLista *ptlista)
 {
-
-  if (ptlista->lista == NULL)
+  no *ant = ptlista->lista;
+  no *pont;
+  no *retorno;
+  if (ant == NULL)
   {
     return NULL;
   }
   else
   {
-    no *ant = ptlista->lista;
-    no *pont = ptlista->lista;
-
-    while (pont != NULL)
+    while (ant != NULL)
     {
       pont = ant->prox;
-      if (pont == NULL)
+      if (ant->prox == NULL)
       {
-        no *retorno = ant;
-        ant = NULL;
+        retorno = ant;
+        ptlista->lista = NULL;
         ptlista->tam--;
         return retorno;
       }
-      ant = pont;
+      else
+      {
+
+        if (pont->prox == NULL)
+        {
+          retorno = pont;
+          ant->prox = NULL;
+          ptlista->tam--;
+          return retorno;
+        }
+        ant = pont;
+      }
     }
   }
   return NULL;

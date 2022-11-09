@@ -14,12 +14,12 @@ inline tQueue *end_queue(tQueue *p){
 }
 
 inline void push(tQueue *p, int valor){
-  insere_inicio(p, valor);
+  insere_fim(p, valor);
 }
 
 
 inline no *pop(tQueue *p){
-  return remove_fim(p);
+  return remove_inicio(p);
 }
 
 
