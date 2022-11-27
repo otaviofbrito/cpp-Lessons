@@ -31,7 +31,7 @@ int insere(no new_element)
 }
 
 no remove()
-{
+{ 
   no retorno;
   if(f != -1){
     retorno = queue[f];

@@ -58,4 +58,6 @@ void insere_fim(tLista *ptlista, no *cdata);
 
 no *remove_fim(tLista *ptlista);
 
+no *remove_enc(tLista *ptlista, std::string plate);
+
 #endif /* LISTA_H */

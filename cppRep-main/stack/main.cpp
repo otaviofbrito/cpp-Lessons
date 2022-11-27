@@ -9,7 +9,7 @@ typedef struct no_
 
 using namespace std;
 
-no pile[10];
+no stack[10];
 int tam = 10;
 int top = -1;
 
@@ -19,7 +19,7 @@ int insere(no new_element)
   if (top != tam)
   {
     top++;
-    pile[top] = new_element;
+    stack[top] = new_element;
     return top;
   }
   return -1;
@@ -30,7 +30,7 @@ no remove()
   no retorno;
   if (top != -1)
   {
-    retorno = pile[top];
+    retorno = stack[top];
     top--;
   }
   return retorno;

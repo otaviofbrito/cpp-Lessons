@@ -113,6 +113,21 @@ void insere_inicio(tLista *ptlista, cars_ *cd)
   ptlista->tam++;
 }
 
+no *remove_enc(tLista *ptlista, string plate){
+  no *ant;
+  no *pont;
+  no *car;
+  car = busca(ptlista, plate);
+  if (car == NULL){
+    return NULL;
+  }else {
+    
+  }
+
+
+
+}
+
 /**
 
  * Realiza a insercao do elemento no fim da lista ligada.
