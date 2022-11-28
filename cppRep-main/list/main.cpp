@@ -11,8 +11,8 @@ typedef struct no_
 
 } no;
 
-no list[10];
-int tam = 10;
+no list[5];
+int tam = 5;
 int qtd = 0;
 
 int busca(int key)
@@ -96,7 +96,7 @@ int busca_bin(int key)
 
 int insere(no novo_el)
 {
-  int retorno = -3;
+int retorno = -3;
   if (qtd < tam)
   {
     if (busca2(novo_el.chave) == -1)

@@ -9,14 +9,14 @@ typedef struct no_
 
 using namespace std;
 
-no stack[10];
-int tam = 10;
+no stack[5];
+int tam = 5;
 int top = -1;
 
 int insere(no new_element)
 {
 
-  if (top != tam)
+  if (top != tam-1)
   {
     top++;
     stack[top] = new_element;
@@ -53,9 +53,41 @@ int main(int argc, char const *argv[])
   cin >> resp.chave >> resp.valor;
   insere(resp);
 
+  cout << "INSERE 3" << endl;
+  cin >> resp.chave >> resp.valor;
+  insere(resp);
+
+  cout << "INSERE 3" << endl;
+  cin >> resp.chave >> resp.valor;
+  insere(resp);
+
+  cout << "INSERE 3" << endl;
+  cin >> resp.chave >> resp.valor;
+  insere(resp);
+
+  cout << "INSERE 3" << endl;
+  cin >> resp.chave >> resp.valor;
+  insere(resp);
+
+  cout << "INSERE 3" << endl;
+  cin >> resp.chave >> resp.valor;
+  insere(resp);
+
+  cout << "INSERE 3" << endl;
+  cin >> resp.chave >> resp.valor;
+  insere(resp);
+
+  cout << "INSERE 3" << endl;
+  cin >> resp.chave >> resp.valor;
+  insere(resp);
+
+  cout << "INSERE 3" << endl;
+  cin >> resp.chave >> resp.valor;
+  insere(resp);
+
+
   remove();
   remove();
-  
 
   return 0;
 }

@@ -21,6 +21,16 @@ int inserir(int value)
     tlista = tmp;
     return 1;
   }
+  if(tlista->valor > value){
+    no *tmp = new no;
+    tmp->valor = value;
+    tmp->prox = tlista;
+    tlista = tmp;
+    return 1;
+  }
+  if(tlista->valor == value){
+    return 0;
+  }
   no *ant = tlista;
   no *prox = tlista->prox;
   while (prox != NULL && prox->valor < value)
@@ -42,8 +52,14 @@ int inserir(int value)
 
 no *remover(int value)
 {
+  no *retorno;
   if(tlista == NULL){
     return NULL;
+  }
+  if(tlista->valor == value){
+    retorno = tlista;
+    tlista = tlista->prox;
+    return retorno;
   }
   no *ant = tlista;
   no *prox = tlista->prox;
