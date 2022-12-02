@@ -5,11 +5,17 @@
 #include <algorithm> //transform
 
 #include "../src/include/lista.h"
+#include "../src/include/fila.h"
+#include "../src/include/pilha.h"
 
 using namespace std;
 
 tLista *ptlista;
 tLista *ord_lista;
+
+tFila *ptfila;
+
+tPilha *ptpilha;
 
 void buscaCarro(tLista *lista, string plate)
 {
@@ -34,6 +40,7 @@ void buscaCarro(tLista *lista, string plate)
       cout << "\nCAR WAS REMOVED SUCCESSFULLY!\n"
            << "*--------------✓------------*" << endl;
 
+      delete (car_removed->pt_dcar);
       delete (car_removed);
     }
   }
@@ -97,30 +104,6 @@ int insertCar(tLista *ptlista)
   return 0;
 }
 
-void busca_ordenada(tLista *ordenado, string placa, no **ant, no **pont)
-{
-  *ant = ordenado->lista;    // precisam ser ponteiros.
-  no *ptr = ordenado->lista; // primeiro elemento da lista.
-  *pont = NULL;
-
-  while (ptr != NULL)
-  {
-    if (ptr->pt_dcar->placa < placa)
-    {
-      *ant = ptr;
-      ptr = ptr->prox;
-    }
-    else
-    {
-      if (ptr->pt_dcar->placa == placa)
-      {
-        *pont = ptr;
-      }
-      ptr = NULL; // sair da repetição
-    }
-  }
-}
-
 void insere_ordenado(tLista *ptlista, tLista *ordenado)
 {
   no *ant = ordenado->lista;
@@ -168,9 +151,9 @@ void saveFile(tLista *ptlista)
     }
     else
     {
-      no *ant = NULL;
+
       no *ptr = ptlista->lista;
-      while(ptr != NULL)
+      while (ptr != NULL)
       {
         car_database << ptr->pt_dcar->modelo << " ";
         car_database << ptr->pt_dcar->marca << " ";
@@ -184,9 +167,16 @@ void saveFile(tLista *ptlista)
         car_database << ptr->pt_dcar->cor << " ";
         car_database << ptr->pt_dcar->portas << " ";
         car_database << ptr->pt_dcar->placa << " ";
-        car_database << ptr->pt_dcar->valor << endl;
+        if (ptr->prox == NULL)
+        {
 
-        ant = ptr;
+          car_database << ptr->pt_dcar->valor;
+        }
+        else
+        {
+          car_database << ptr->pt_dcar->valor << endl;
+        }
+
         ptr = ptr->prox;
       }
 
@@ -201,6 +191,48 @@ void saveFile(tLista *ptlista)
   }
 }
 
+void constroi_pilha(tLista *ptlista, tPilha *ptpilha)
+{
+  no *ptr = ptlista->lista;
+  while (ptr != NULL)
+  {
+    if (ptr->pt_dcar->direcao == "Hidráulica")
+    {
+      pilha_push(ptpilha, ptr->pt_dcar);
+    }
+    ptr = ptr->prox;
+  }
+}
+
+void constroi_fila(tLista *ptlista, tFila *ptfila)
+{
+  no *ptr = ptlista->lista;
+  while (ptr != NULL)
+  {
+    if (ptr->pt_dcar->cambio == "Automático")
+    {
+      fila_push(ptfila, ptr->pt_dcar);
+    }
+    ptr = ptr->prox;
+  }
+}
+
+void deleta_carros(tLista *ptlista)
+{
+
+  no *ant = ptlista->lista;
+  no *pont = ptlista->lista;
+
+  while (ant != NULL)
+  {
+    pont = ant->prox;
+    delete (ant->pt_dcar);
+    ant = pont;
+  }
+
+  cout << "-Os carros foram removidos." << endl;
+}
+
 int menu_db()
 {
   int resposta;
@@ -213,11 +245,12 @@ int menu_db()
   cout << "4 - Pilha de veículos com direção hidráulica" << endl;
   cout << "5 - Lista de veículos com câmbio automático" << endl;
   cout << "6 - Salvar alterações" << endl;
-  cout << "7 - Sair" << endl;
+  cout << "7 - Relatorio" << endl;
+  cout << "8 - Sair" << endl;
   cout << "SELECT AN OPTION: ";
   cin >> resposta;
 
-  while (resposta <= 0 || resposta > 6 || cin.fail())
+  while (resposta <= 0 || resposta > 8 || cin.fail())
   {
     cin.clear();
     cin.ignore(INT_MAX, '\n');
@@ -260,9 +293,19 @@ int main(int argc, char const *argv[])
     }
     bd_carros.close();
 
+    if (ptlista->lista->pt_dcar->placa == "")
+    {
+      delete (ptlista->lista->pt_dcar);
+      delete (ptlista->lista);
+      ptlista->lista = NULL;
+    }
+
     string placa_busca;
     int opt;
     ord_lista = inicia_lista();
+    ptpilha = inicia_pilha();
+    ptfila = inicia_fila();
+
     do
     {
       opt = menu_db();
@@ -292,27 +335,51 @@ int main(int argc, char const *argv[])
         insere_ordenado(ptlista, ord_lista);
         break;
       case 4:
-        imprime(ord_lista);
+        constroi_pilha(ptlista, ptpilha);
+        if (ptpilha->lista == NULL)
+        {
+          cout << "Pilha vazia!" << endl;
+        }
+        else
+        {
+          imprime(ptpilha);
+        }
         break;
 
       case 5:
-
+        constroi_fila(ptlista, ptfila);
+        if (ptfila->lista == NULL)
+        {
+          cout << "Fila vazia!" << endl;
+        }
+        else
+        {
+          imprime(ptfila);
+        }
         break;
 
       case 6:
-          saveFile(ptlista);
+        saveFile(ptlista);
         break;
 
       case 7:
+
+        break;
+
+      case 8:
+        deleta_carros(ptlista);
         ptlista = encerra_lista(ptlista);
         ord_lista = encerra_lista(ord_lista);
+
+        ptpilha = encerra_pilha(ptpilha);
+        ptfila = encerra_fila(ptfila);
         break;
 
       default:
         break;
       }
 
-    } while (opt != 7);
+    } while (opt != 8);
   }
   else
   {

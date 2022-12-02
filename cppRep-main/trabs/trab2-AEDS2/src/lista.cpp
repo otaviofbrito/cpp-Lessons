@@ -30,6 +30,7 @@ tLista *encerra_lista(tLista *ptlista)
 
     pont = ant->prox;
 
+
     delete (ant);
 
     ant = pont;
@@ -42,19 +43,46 @@ tLista *encerra_lista(tLista *ptlista)
   return NULL;
 }
 
-no *busca(tLista *ptlista, string placa) {
+no *busca(tLista *ptlista, string placa)
+{
 
-  no *pont = NULL; 
-  no *ptr = ptlista->lista; 
+  no *pont = NULL;
+  no *ptr = ptlista->lista;
 
-  while (ptr != NULL) { 
-      if (ptr->pt_dcar->placa == placa) { 
-        pont = ptr; 
-        return pont; 
+  while (ptr != NULL)
+  {
+    if (ptr->pt_dcar->placa == placa)
+    {
+      pont = ptr;
+      return pont;
+    }
+    ptr = ptr->prox;
+  }
+  return pont;
+}
+
+void busca_ordenada(tLista *ordenado, string placa, no **ant, no **pont)
+{
+  *ant = ordenado->lista;    // precisam ser ponteiros.
+  no *ptr = ordenado->lista; // primeiro elemento da lista.
+  *pont = NULL;
+
+  while (ptr != NULL)
+  {
+    if (ptr->pt_dcar->placa < placa)
+    {
+      *ant = ptr;
+      ptr = ptr->prox;
+    }
+    else
+    {
+      if (ptr->pt_dcar->placa == placa)
+      {
+        *pont = ptr;
       }
-      ptr = ptr->prox; 
-  } 
-  return pont; 
+      ptr = NULL; // sair da repetição
+    }
+  }
 }
 
 void insere_inicio(tLista *ptlista, dcar *new_car)
@@ -95,7 +123,6 @@ void insere_fim(tLista *ptlista, dcar *new_car)
   }
 }
 
-
 no *remove_inicio(tLista *ptlista)
 {
   if (ptlista->lista == NULL)
@@ -111,27 +138,30 @@ no *remove_inicio(tLista *ptlista)
   }
 }
 
-no *remove_enc(tLista *ptlista, string placa){
+no *remove_enc(tLista *ptlista, string placa)
+{
   no *retorno = NULL;
-  if(ptlista->lista != NULL){
+  if (ptlista->lista != NULL)
+  {
     no *ant = ptlista->lista;
     no *ptr = ptlista->lista;
     no *pt_car = busca(ptlista, placa);
-    while(ptr != pt_car){
+    while (ptr != pt_car)
+    {
       ant = ptr;
       ptr = ptr->prox;
     }
-    if(ptr == ptlista->lista){
+    if (ptr == ptlista->lista)
+    {
       retorno = pt_car;
       ptlista->lista = ptr->prox;
       ptlista->tam--;
       return retorno;
     }
     retorno = pt_car;
-    ant->prox =  ptr->prox;
+    ant->prox = ptr->prox;
     ptlista->tam--;
     return retorno;
-
   }
   return retorno;
 }
@@ -141,7 +171,7 @@ void imprime(tLista *ptlista)
   no *p = ptlista->lista;
   while (p != NULL)
   {
-    cout << p->pt_dcar->placa << " \n" ;
+    cout << p->pt_dcar->placa << " \n";
     p = p->prox;
   }
   cout << "\n";
@@ -181,7 +211,6 @@ void imprime(tLista *ptlista)
   return NULL;
 }
 */
-
 
 /*
 while (ant != NULL)

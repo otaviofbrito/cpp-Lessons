@@ -41,6 +41,8 @@ tLista *encerra_lista(tLista *ptlista);
 
 no *busca(tLista *ptlista, std::string placa);
 
+void busca_ordenada(tLista *ptlista, std::string placa, no **ant, no **pont);
+
 void imprime(tLista *ptlista);
 
 void insere_inicio(tLista *ptlista, dcar *new_car);
