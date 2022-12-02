@@ -347,7 +347,7 @@ void findElementsByPrice(car *dcar[], int target, int v, int tam)
   while (esq < dir)
   {
     cout << left
-         << setw(0) << "R$ "
+         << setw(0) << "R$ "  
          << setw(10) << dcar[esq]->price << " - "
          << setw(20) << dcar[esq]->brand
          << setw(20) << dcar[esq]->model

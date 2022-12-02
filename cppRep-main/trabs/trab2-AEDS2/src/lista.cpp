@@ -1,5 +1,5 @@
 #include <cstdlib>
-
+#include <iomanip> //tabela imprime
 #include <iostream>
 
 #include "../src/include/lista.h"
@@ -29,7 +29,6 @@ tLista *encerra_lista(tLista *ptlista)
   {
 
     pont = ant->prox;
-
 
     delete (ant);
 
@@ -169,14 +168,34 @@ no *remove_enc(tLista *ptlista, string placa)
 void imprime(tLista *ptlista)
 {
   no *p = ptlista->lista;
+  int i = 1;
+  cout << "\n ----------------------------->RESULTADOS-->\n"
+       << endl;
   while (p != NULL)
   {
-    cout << p->pt_dcar->placa << " \n";
-    p = p->prox;
-  }
-  cout << "\n";
-}
 
+    cout << right
+         << setw(0) << i << " - "
+         <<left
+         << setw(10) << p->pt_dcar->placa << " - "
+         << setw(20) << p->pt_dcar->marca
+         << setw(20) << p->pt_dcar->modelo
+         << setw(10) << p->pt_dcar->ano
+         << setw(20) << p->pt_dcar->cambio
+         << setw(20) << p->pt_dcar->direcao
+         << setw(10) << p->pt_dcar->potencia
+         << setw(10) << p->pt_dcar->tipo
+         << setw(10) << p->pt_dcar->cor
+         << setw(0) << "R$: "
+         << setw(10) << p->pt_dcar->valor;
+    p = p->prox;
+    i++;
+
+    cout << "\n";
+  }
+  cout << "\n <--FIM<-----------------------------\n"
+       << endl;
+}
 /*no *remove_fim(tLista *ptlista)
 {
   no *ant;
@@ -211,28 +230,3 @@ void imprime(tLista *ptlista)
   return NULL;
 }
 */
-
-/*
-while (ant != NULL)
-    {
-      pont = ant->prox;
-      if (ant->prox == NULL)
-      {
-        retorno = ant;
-        ptlista->lista = NULL;
-        ptlista->tam--;
-        return retorno;
-      }
-      else
-      {
-
-        if (pont->prox == NULL)
-        {
-          retorno = pont;
-          ant->prox = NULL;
-          ptlista->tam--;
-          return retorno;
-        }
-        ant = pont;
-      }
-    }*/

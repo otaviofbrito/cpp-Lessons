@@ -332,7 +332,16 @@ int main(int argc, char const *argv[])
         break;
 
       case 3:
-        insere_ordenado(ptlista, ord_lista);
+        if (ptlista->lista == NULL)
+        {
+          cout << "\n"
+               << "Lista vazia!" << endl;
+        }
+        else
+        {
+          insere_ordenado(ptlista, ord_lista);
+          imprime(ord_lista);
+        }
         break;
       case 4:
         constroi_pilha(ptlista, ptpilha);
@@ -363,7 +372,11 @@ int main(int argc, char const *argv[])
         break;
 
       case 7:
-
+        if(ptlista->lista == NULL){
+          cout << "\n Lista vazia!" << endl;
+        } else {
+          imprime(ptlista);
+        }
         break;
 
       case 8:
