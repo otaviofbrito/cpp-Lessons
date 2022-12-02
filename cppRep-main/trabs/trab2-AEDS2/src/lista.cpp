@@ -14,7 +14,7 @@ tLista *inicia_lista()
   tmp->tam = 0;
   tmp->lista = NULL;
 
-  cout << "-A lista foi iniciada." << endl;
+  cout << "\n✓ - Estrutura iniciada com sucesso!" << endl;
 
   return tmp;
 }
@@ -37,7 +37,7 @@ tLista *encerra_lista(tLista *ptlista)
 
   delete (ptlista);
 
-  cout << "-A lista foi removida." << endl;
+  cout << "\n✓ - Estrutura removida com sucesso!" << endl;
 
   return NULL;
 }
@@ -174,15 +174,14 @@ void imprime(tLista *ptlista)
   while (p != NULL)
   {
 
-    cout << right
+    cout << left
          << setw(0) << i << " - "
-         <<left
          << setw(10) << p->pt_dcar->placa << " - "
          << setw(20) << p->pt_dcar->marca
          << setw(20) << p->pt_dcar->modelo
          << setw(10) << p->pt_dcar->ano
          << setw(20) << p->pt_dcar->cambio
-         << setw(20) << p->pt_dcar->direcao
+         << setw(15) << p->pt_dcar->direcao
          << setw(10) << p->pt_dcar->potencia
          << setw(10) << p->pt_dcar->tipo
          << setw(10) << p->pt_dcar->cor

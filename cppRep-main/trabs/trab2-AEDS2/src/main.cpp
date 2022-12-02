@@ -230,7 +230,7 @@ void deleta_carros(tLista *ptlista)
     ant = pont;
   }
 
-  cout << "-Os carros foram removidos." << endl;
+  cout << "\n✓ - Os carros foram removidos." << endl;
 }
 
 int menu_db()
@@ -267,7 +267,7 @@ int main(int argc, char const *argv[])
   bd_carros.open("cars.txt");
   if (bd_carros.is_open())
   {
-
+    cout << "\n Iniciando lista principal ..." << endl;
     ptlista = inicia_lista();
 
     while (!bd_carros.eof())
@@ -302,8 +302,12 @@ int main(int argc, char const *argv[])
 
     string placa_busca;
     int opt;
+
+    cout << "\n Iniciando lista ordenada..." << endl;
     ord_lista = inicia_lista();
+    cout << "\n Iniciando pilha ..." << endl;
     ptpilha = inicia_pilha();
+    cout << "\n Iniciando fila ..." << endl;
     ptfila = inicia_fila();
 
     do
@@ -334,12 +338,13 @@ int main(int argc, char const *argv[])
       case 3:
         if (ptlista->lista == NULL)
         {
-          cout << "\n"
-               << "Lista vazia!" << endl;
+          cout << "\n\tLISTA VAZIA!"
+               << "\n--------------X--------------" << endl;
         }
         else
         {
           insere_ordenado(ptlista, ord_lista);
+          cout << "\n ------LISTA ORDENADA:\n" << endl;
           imprime(ord_lista);
         }
         break;
@@ -347,10 +352,12 @@ int main(int argc, char const *argv[])
         constroi_pilha(ptlista, ptpilha);
         if (ptpilha->lista == NULL)
         {
-          cout << "Pilha vazia!" << endl;
+          cout << "\n\tPILHA VAZIA!"
+               << "\n--------------X--------------" << endl;
         }
         else
         {
+          cout << "\n ------PILHA DE VEICULOS COM DIRECAO HIDRAULICA:\n" << endl;
           imprime(ptpilha);
         }
         break;
@@ -359,10 +366,12 @@ int main(int argc, char const *argv[])
         constroi_fila(ptlista, ptfila);
         if (ptfila->lista == NULL)
         {
-          cout << "Fila vazia!" << endl;
+          cout << "\n\tFILA VAZIA!"
+               << "\n--------------X--------------" << endl;
         }
         else
         {
+          cout << "\n ------FILA DE VEICULOS COM CAMBIO AUTOMATICO:\n" << endl;
           imprime(ptfila);
         }
         break;
@@ -372,20 +381,33 @@ int main(int argc, char const *argv[])
         break;
 
       case 7:
-        if(ptlista->lista == NULL){
-          cout << "\n Lista vazia!" << endl;
-        } else {
+        if (ptlista->lista == NULL)
+        {
+          cout << "\n\tLISTA VAZIA!"
+               << "\n--------------X--------------" << endl;
+        }
+        else
+        {
+          cout << "\n ------RELATORIO LISTA PRINCIPAL:\n" << endl;
           imprime(ptlista);
         }
         break;
 
       case 8:
+        cout << "\n Saindo da aplicacao...\n" << endl;
+        cout << "\n Desalocando carros..." << endl;
         deleta_carros(ptlista);
+        cout << "\n Desalocando lista principal..." << endl;
         ptlista = encerra_lista(ptlista);
+        cout << "\n Desalocando lista ordenada..." << endl;
         ord_lista = encerra_lista(ord_lista);
 
+        cout << "\n Desalocando pilha..." << endl;
         ptpilha = encerra_pilha(ptpilha);
+
+        cout << "\n Desalocando fila..." << endl;
         ptfila = encerra_fila(ptfila);
+        cout << "\n Aplicacao encerrada\n" << endl;
         break;
 
       default:
