@@ -1,7 +1,7 @@
 #include <string>
-#ifndef LISTA_H
+#ifndef LIST_H
 
-#define LISTA_H
+#define LIST_H
 
 typedef struct no_
 {
@@ -35,13 +35,13 @@ typedef struct dcar_
 
 } dcar;
 
-tLista *inicia_lista();
+tLista *start_list();
 
-tLista *encerra_lista(tLista *ptlista);
+tLista *end_list(tLista *ptlista);
 
 no *busca(tLista *ptlista, std::string placa);
 
-void busca_ordenada(tLista *ptlista, std::string placa, no **ant, no **pont);
+void search_sorted(tLista *ptlista, std::string placa, no **ant, no **pont);
 
 void imprime(tLista *ptlista);
 
@@ -55,4 +55,4 @@ no *remove_fim(tLista *ptlista);
 
 no *remove_enc(tLista *ptlista, std::string placa);
 
-#endif /* LISTA_H */
+#endif /* LIST_H */

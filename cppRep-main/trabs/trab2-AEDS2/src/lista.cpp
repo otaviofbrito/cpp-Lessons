@@ -2,11 +2,16 @@
 #include <iomanip> //tabela imprime
 #include <iostream>
 
-#include "../src/include/lista.h"
+#include "../src/include/list.h"
 
 using namespace std;
 
-tLista *inicia_lista()
+/**
+ * @brief Inicializa uma lista com a criação de um cabeçalho.
+ *
+ * @return tLista* retorna o endereço desse cabeçalho criado
+ */
+tLista *start_list()
 {
 
   tLista *tmp = new (tLista);
@@ -14,12 +19,18 @@ tLista *inicia_lista()
   tmp->tam = 0;
   tmp->lista = NULL;
 
-  cout << "\n✓ - Estrutura iniciada com sucesso!" << endl;
+  cout << "\n✓ - Struct started successfully!" << endl;
 
   return tmp;
 }
 
-tLista *encerra_lista(tLista *ptlista)
+/**
+ * @brief Desaloca toda uma lista.
+ *
+ * @param ptlista endereco do cabeçalho.
+ * @return tLista* retornal ponteiro do no cabeca;
+ */
+tLista *end_list(tLista *ptlista)
 {
 
   no *ant = ptlista->lista;
@@ -37,11 +48,18 @@ tLista *encerra_lista(tLista *ptlista)
 
   delete (ptlista);
 
-  cout << "\n✓ - Estrutura removida com sucesso!" << endl;
+  cout << "\n✓ - Struct removed successfully!" << endl;
 
   return NULL;
 }
 
+/**
+ * @brief Realiza uma busca pela placa fornecida como parâmetro.
+ *
+ * @param ptlista endereco do cabeçalho.
+ * @param placa placa a ser encontrada na lista.
+ * @return no* retorna o endereço do elemento encontrado.
+ */
 no *busca(tLista *ptlista, string placa)
 {
 
@@ -60,7 +78,16 @@ no *busca(tLista *ptlista, string placa)
   return pont;
 }
 
-void busca_ordenada(tLista *ordenado, string placa, no **ant, no **pont)
+/**
+ * @brief Realiza uma busca de acordo placa fornecida da função insere_ordenado, levando em consideração uma lista ordenada, dessa forma fornece a posição a qual devo reorganizar os elementos de forma ordenada.
+
+ *
+ * @param ordenado endereco do cabeçalho.
+ * @param placa placa a ser inserida na lista.
+ * @param ant endereço de uma variável ponteiro. Fornece a posição adequada.
+ * @param pont endereço de uma variável ponteiro. Sinaliza se o elemento já existe ou não.
+ */
+void search_sorted(tLista *ordenado, string placa, no **ant, no **pont)
 {
   *ant = ordenado->lista;    // precisam ser ponteiros.
   no *ptr = ordenado->lista; // primeiro elemento da lista.
@@ -84,6 +111,12 @@ void busca_ordenada(tLista *ordenado, string placa, no **ant, no **pont)
   }
 }
 
+/**
+ * @brief Insere no inicio de uma lista.
+ *
+ * @param ptlista endereco do cabeçalho.
+ * @param new_car endereço de uma struct dcar.
+ */
 void insere_inicio(tLista *ptlista, dcar *new_car)
 {
   no *novo_no = new (no);
@@ -93,6 +126,12 @@ void insere_inicio(tLista *ptlista, dcar *new_car)
   ptlista->tam++;
 }
 
+/**
+ * @brief Percorre toda a lista para inserir no fim dessa.
+ *
+ * @param ptlista endereco do cabeçalho.
+ * @param new_car endereço de uma struct dcar.
+ */
 void insere_fim(tLista *ptlista, dcar *new_car)
 {
 
@@ -122,6 +161,12 @@ void insere_fim(tLista *ptlista, dcar *new_car)
   }
 }
 
+/**
+ * @brief Remove o primeiro elemento de uma lista.
+ *
+ * @param ptlista endereco do cabeçalho.
+ * @return no* retorna o endereço do elemento removido.
+ */
 no *remove_inicio(tLista *ptlista)
 {
   if (ptlista->lista == NULL)
@@ -137,6 +182,13 @@ no *remove_inicio(tLista *ptlista)
   }
 }
 
+/**
+ * @brief Remove um elemento específico, com auxílio da função de busca.
+ *
+ * @param ptlista endereco do cabeçalho.
+ * @param placa placa do veículo a ser removido.
+ * @return no* retorna o endereço do elemento removido.
+ */
 no *remove_enc(tLista *ptlista, string placa)
 {
   no *retorno = NULL;
@@ -165,11 +217,16 @@ no *remove_enc(tLista *ptlista, string placa)
   return retorno;
 }
 
+/**
+ * @brief Imprime toda uma lista a partir do seu cabeçalho.
+ *
+ * @param ptlista endereco do cabeçalho.
+ */
 void imprime(tLista *ptlista)
 {
   no *p = ptlista->lista;
   int i = 1;
-  cout << "\n ----------------------------->RESULTADOS-->\n"
+  cout << "\n ----------------------------->RESULTS-->\n"
        << endl;
   while (p != NULL)
   {
@@ -192,40 +249,6 @@ void imprime(tLista *ptlista)
 
     cout << "\n";
   }
-  cout << "\n <--FIM<-----------------------------\n"
+  cout << "\n <--END<-----------------------------\n"
        << endl;
 }
-/*no *remove_fim(tLista *ptlista)
-{
-  no *ant;
-  no *pont = ptlista->lista;
-  no *retorno;
-  if (pont == NULL)
-  {
-    return NULL;
-  }
-  else
-  {
-    if (pont->prox == NULL)
-    {
-      retorno = pont;
-      ptlista->lista = NULL;
-      ptlista->tam--;
-      return retorno;
-    }
-    else
-    {
-      while (pont->prox != NULL)
-      {
-        ant = pont;
-        pont = pont->prox;
-      }
-      retorno = pont;
-      ant->prox = NULL;
-      ptlista->tam--;
-      return retorno;
-    }
-  }
-  return NULL;
-}
-*/

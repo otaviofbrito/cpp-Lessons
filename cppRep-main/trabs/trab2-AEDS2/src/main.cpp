@@ -4,19 +4,26 @@
 #include <climits>   //menu
 #include <algorithm> //transform
 
-#include "../src/include/lista.h"
-#include "../src/include/fila.h"
-#include "../src/include/pilha.h"
+#include "../src/include/list.h"
+#include "../src/include/queue.h"
+#include "../src/include/stack.h"
 
 using namespace std;
 
+// Cabeçalhos para as listas desenvolvidas.
 tLista *ptlista;
 tLista *ord_lista;
 
-tFila *ptfila;
+tQueue *ptfila;
 
-tPilha *ptpilha;
+tStack *ptpilha;
 
+/**
+ * @brief Realiza a função de busca na lista principal, caso seja requisitado pelo usuário, remove um veículo encontrado.
+ *
+ * @param lista  endereco do cabeçalho da lista principal.
+ * @param plate placa fornecida pelo usuário.
+ */
 void buscaCarro(tLista *lista, string plate)
 {
   no *find_car = busca(lista, plate);
@@ -25,7 +32,7 @@ void buscaCarro(tLista *lista, string plate)
     string resposta;
     cout << "\n >" << find_car->pt_dcar->marca << " " << find_car->pt_dcar->modelo << " FOUND!"
          << endl;
-    cout << "Do you want remove this car(y/n)?: ";
+    cout << "Do you want to remove this car?(y/n)?: ";
     cin >> resposta;
     transform(resposta.begin(), resposta.end(), resposta.begin(), ::tolower);
     while (resposta != "y" && resposta != "n")
@@ -37,7 +44,7 @@ void buscaCarro(tLista *lista, string plate)
     if (resposta == "y")
     {
       no *car_removed = remove_enc(lista, plate);
-      cout << "\nCAR WAS REMOVED SUCCESSFULLY!\n"
+      cout << "\nVehicle removed successfully!\n"
            << "*--------------✓------------*" << endl;
 
       delete (car_removed->pt_dcar);
@@ -47,21 +54,27 @@ void buscaCarro(tLista *lista, string plate)
   else
   {
 
-    cout << "\n\tCAR NOT FOUND!"
+    cout << "\n\tVEHICLE NOT FOUND!"
          << "\n--------------X--------------" << endl;
   }
 }
 
+/**
+ * @brief Realiza a leitura dos dados fornecidos pelo usuário, fornecendo o endereço da nova struct alocada, para a função insere_fim.
+ *
+ * @param ptlista endereco do cabeçalho da lista principal.
+ * @return int retorna 1 se for possivel inserir e 0 caso contrario.
+ */
 int insertCar(tLista *ptlista)
 {
   string nova_placa;
-  cout << "\nEnter vehicle license plate: ";
+  cout << "\n Insert vehicle license plate: ";
   cin >> nova_placa;
   transform(nova_placa.begin(), nova_placa.end(), nova_placa.begin(), ::toupper);
 
   if (busca(ptlista, nova_placa) != NULL)
   {
-    cout << "\nCAR ALREADY IN DATABASE!\n"
+    cout << "\nVEHICLE ALREADY IN DATABASE!\n"
          << "------------------------" << endl;
     return 0;
   }
@@ -81,9 +94,9 @@ int insertCar(tLista *ptlista)
     cin >> novo_carro->km;
     cout << "Engine: ";
     cin >> novo_carro->potencia;
-    cout << "Gas type: ";
+    cout << "Gas: ";
     cin >> novo_carro->combustivel;
-    cout << "Gear: ";
+    cout << "Transmission: ";
     cin >> novo_carro->cambio;
     cout << "Steering: ";
     cin >> novo_carro->direcao;
@@ -91,12 +104,12 @@ int insertCar(tLista *ptlista)
     cin >> novo_carro->cor;
     cout << "Doors: ";
     cin >> novo_carro->portas;
-    cout << "price: ";
+    cout << "Price: ";
     cin >> novo_carro->valor;
 
     insere_fim(ptlista, novo_carro);
 
-    cout << "\nCAR STORED SUCCESSFULLY!\n"
+    cout << "\nVEHICLE STORED SUCCESSFULLY!\n"
          << "*--------------✓------------*\n";
 
     return 1;
@@ -104,6 +117,12 @@ int insertCar(tLista *ptlista)
   return 0;
 }
 
+/**
+ * @brief Insere de forma ordenada os elementos da lista principal, em uma nova lista, com auxílio de uma busca de forma ordenada.
+ *
+ * @param ptlista endereco do cabeçalho. Nesse caso da lista principal.
+ * @param ordenado endereço do cabeçalho. Nesse caso, da lista ordenada.
+ */
 void insere_ordenado(tLista *ptlista, tLista *ordenado)
 {
   no *ant = ordenado->lista;
@@ -116,7 +135,7 @@ void insere_ordenado(tLista *ptlista, tLista *ordenado)
     no *novo_ord = new no;
     novo_ord->pt_dcar = lista_principal->pt_dcar;
     placa = lista_principal->pt_dcar->placa;
-    busca_ordenada(ordenado, placa, &ant, &pont);
+    search_sorted(ordenado, placa, &ant, &pont);
     if (pont == NULL)
     { // não estou inserindo o mesmo.
       if (ant == NULL)
@@ -139,6 +158,11 @@ void insere_ordenado(tLista *ptlista, tLista *ordenado)
   }
 }
 
+/**
+ * @brief Reescreve no arquivo (banco de dados), as alterações(se realizadas) na lista principal durante a execução do programa.
+ *
+ * @param ptlista endereco do cabeçalho. Nesse caso da lista principal.
+ */
 void saveFile(tLista *ptlista)
 {
   ofstream car_database;
@@ -148,6 +172,8 @@ void saveFile(tLista *ptlista)
     if (ptlista->lista == NULL)
     {
       car_database << "";
+      cout << "\nDATABASE UPDATED!"
+           << "\n*--------------✓------------*" << endl;
     }
     else
     {
@@ -187,36 +213,53 @@ void saveFile(tLista *ptlista)
   }
   else
   {
-    cout << "UNABLE TO OVERWRITE FILE" << endl;
+    cout << "COULD NOT BE ABLE TO OVERWRITE DATA!" << endl;
   }
 }
 
-void constroi_pilha(tLista *ptlista, tPilha *ptpilha)
+/**
+ * @brief Construção de uma stack com base na lista principal, por meio de uma busca realizada na mesma. Caso um veículo possua direção hidráulica, este é inserido no topo da queue. Nessa stack, utiliza-se o método de inserir no começo.
+ *
+ * @param ptlista endereco do cabeçalho. Nesse caso da lista principal.
+ * @param ptpilha endereço de um cabeçalho. Nesse caso da stack a ser construída.
+ */
+void constroi_pilha(tLista *ptlista, tStack *ptpilha)
 {
   no *ptr = ptlista->lista;
   while (ptr != NULL)
   {
     if (ptr->pt_dcar->direcao == "Hidráulica")
     {
-      pilha_push(ptpilha, ptr->pt_dcar);
+      stack_push(ptpilha, ptr->pt_dcar);
     }
     ptr = ptr->prox;
   }
 }
 
-void constroi_fila(tLista *ptlista, tFila *ptfila)
+/**
+ * @brief Construção de uma queue com base na lista princpal, por meio de uma busca realizada na mesma. Caso um veículo possua câmbio automático, este é inserido no final da queue. Nessa queue, utiliza-se o método de inserir no fim e as remoções ocorrem no inicio.
+ *
+ * @param ptlista endereco do cabeçalho. Nesse caso da lista principal.
+ * @param ptfila endereço de um cabeçalho. Nesse caso da stack a ser construída.
+ */
+void constroi_fila(tLista *ptlista, tQueue *ptfila)
 {
   no *ptr = ptlista->lista;
   while (ptr != NULL)
   {
     if (ptr->pt_dcar->cambio == "Automático")
     {
-      fila_push(ptfila, ptr->pt_dcar);
+      queue_push(ptfila, ptr->pt_dcar);
     }
     ptr = ptr->prox;
   }
 }
 
+/**
+ * @brief Desaloca as struct dos carros.
+ *
+ * @param ptlista endereco do cabeçalho.
+ */
 void deleta_carros(tLista *ptlista)
 {
 
@@ -230,23 +273,28 @@ void deleta_carros(tLista *ptlista)
     ant = pont;
   }
 
-  cout << "\n✓ - Os carros foram removidos." << endl;
+  cout << "\n✓ - All vehicles were removed!" << endl;
 }
 
+/**
+ * @brief Função que realiza uma interface com o usuário.
+ *
+ * @return int retorna a opcao selecionada.
+ */
 int menu_db()
 {
   int resposta;
   string in_placa;
 
   cout << "\n*----------MENU----------*" << endl;
-  cout << "1 - Busca pela placa" << endl;
-  cout << "2 - Inserir novo veículo" << endl;
-  cout << "3 - Ordenar veículos" << endl;
-  cout << "4 - Pilha de veículos com direção hidráulica" << endl;
-  cout << "5 - Lista de veículos com câmbio automático" << endl;
-  cout << "6 - Salvar alterações" << endl;
-  cout << "7 - Relatorio" << endl;
-  cout << "8 - Sair" << endl;
+  cout << "1 - Search by license plate" << endl;
+  cout << "2 - Insert new car" << endl;
+  cout << "3 - Sort vehicles by license plate" << endl;
+  cout << "4 - Stack of vehicles with hydraulic steering" << endl;
+  cout << "5 - Queue of vehicles with automatic transmission" << endl;
+  cout << "6 - Save changes" << endl;
+  cout << "7 - Main list log" << endl;
+  cout << "8 - Quit" << endl;
   cout << "SELECT AN OPTION: ";
   cin >> resposta;
 
@@ -254,7 +302,7 @@ int menu_db()
   {
     cin.clear();
     cin.ignore(INT_MAX, '\n');
-    cout << "SELECT AN AVAILABLE OPTION!: ";
+    cout << "SELECT AN AVAILABLE OPTION: ";
     cin >> resposta;
   }
   return resposta;
@@ -267,8 +315,8 @@ int main(int argc, char const *argv[])
   bd_carros.open("cars.txt");
   if (bd_carros.is_open())
   {
-    cout << "\n Iniciando lista principal ..." << endl;
-    ptlista = inicia_lista();
+    cout << "\n Starting main list ..." << endl;
+    ptlista = start_list();
 
     while (!bd_carros.eof())
     {
@@ -298,17 +346,18 @@ int main(int argc, char const *argv[])
       delete (ptlista->lista->pt_dcar);
       delete (ptlista->lista);
       ptlista->lista = NULL;
+      ptlista->tam = 0;
     }
 
     string placa_busca;
     int opt;
 
-    cout << "\n Iniciando lista ordenada..." << endl;
-    ord_lista = inicia_lista();
-    cout << "\n Iniciando pilha ..." << endl;
-    ptpilha = inicia_pilha();
-    cout << "\n Iniciando fila ..." << endl;
-    ptfila = inicia_fila();
+    cout << "\n Starting sorted list..." << endl;
+    ord_lista = start_list();
+    cout << "\n Starting stack ..." << endl;
+    ptpilha = start_stack();
+    cout << "\n Starting queue ..." << endl;
+    ptfila = start_queue();
 
     do
     {
@@ -323,7 +372,7 @@ int main(int argc, char const *argv[])
         }
         else
         {
-          cout << "Enter vehicle license plate: ";
+          cout << "INSERT VEHICLE LICENSE PLATE: ";
           cin >> placa_busca;
           transform(placa_busca.begin(), placa_busca.end(), placa_busca.begin(), ::toupper);
           buscaCarro(ptlista, placa_busca);
@@ -338,13 +387,14 @@ int main(int argc, char const *argv[])
       case 3:
         if (ptlista->lista == NULL)
         {
-          cout << "\n\tLISTA VAZIA!"
+          cout << "\n\tEMPTY LIST!"
                << "\n--------------X--------------" << endl;
         }
         else
         {
           insere_ordenado(ptlista, ord_lista);
-          cout << "\n ------LISTA ORDENADA:\n" << endl;
+          cout << "\n ------SORTED LIST:\n"
+               << endl;
           imprime(ord_lista);
         }
         break;
@@ -352,12 +402,13 @@ int main(int argc, char const *argv[])
         constroi_pilha(ptlista, ptpilha);
         if (ptpilha->lista == NULL)
         {
-          cout << "\n\tPILHA VAZIA!"
+          cout << "\n\tEMPTY STACK!"
                << "\n--------------X--------------" << endl;
         }
         else
         {
-          cout << "\n ------PILHA DE VEICULOS COM DIRECAO HIDRAULICA:\n" << endl;
+          cout << "\n ------STACK OF HYDRAULIC STEERING VEHICLES: \n"
+               << endl;
           imprime(ptpilha);
         }
         break;
@@ -366,12 +417,13 @@ int main(int argc, char const *argv[])
         constroi_fila(ptlista, ptfila);
         if (ptfila->lista == NULL)
         {
-          cout << "\n\tFILA VAZIA!"
+          cout << "\n\tEMPTY QUEUE!"
                << "\n--------------X--------------" << endl;
         }
         else
         {
-          cout << "\n ------FILA DE VEICULOS COM CAMBIO AUTOMATICO:\n" << endl;
+          cout << "\n ------QUEUE OF AUTOMATIC TRANSMISSION VEHICLES:\n"
+               << endl;
           imprime(ptfila);
         }
         break;
@@ -383,31 +435,34 @@ int main(int argc, char const *argv[])
       case 7:
         if (ptlista->lista == NULL)
         {
-          cout << "\n\tLISTA VAZIA!"
+          cout << "\n\tEMPTY LIST!"
                << "\n--------------X--------------" << endl;
         }
         else
         {
-          cout << "\n ------RELATORIO LISTA PRINCIPAL:\n" << endl;
+          cout << "\n ------MAIN LIST LOG:\n"
+               << endl;
           imprime(ptlista);
         }
         break;
 
       case 8:
-        cout << "\n Saindo da aplicacao...\n" << endl;
-        cout << "\n Desalocando carros..." << endl;
+        cout << "\n Leaving application...\n"
+             << endl;
+        cout << "\n Deallocating vehicles..." << endl;
         deleta_carros(ptlista);
-        cout << "\n Desalocando lista principal..." << endl;
-        ptlista = encerra_lista(ptlista);
-        cout << "\n Desalocando lista ordenada..." << endl;
-        ord_lista = encerra_lista(ord_lista);
+        cout << "\n Deallocating main list..." << endl;
+        ptlista = end_list(ptlista);
+        cout << "\n Deallocating sorted list..." << endl;
+        ord_lista = end_list(ord_lista);
 
-        cout << "\n Desalocando pilha..." << endl;
-        ptpilha = encerra_pilha(ptpilha);
+        cout << "\n Deallocating stack..." << endl;
+        ptpilha = end_stack(ptpilha);
 
-        cout << "\n Desalocando fila..." << endl;
-        ptfila = encerra_fila(ptfila);
-        cout << "\n Aplicacao encerrada\n" << endl;
+        cout << "\n Deallocating queue..." << endl;
+        ptfila = end_queue(ptfila);
+        cout << "\n Application finished\n"
+             << endl;
         break;
 
       default:
@@ -418,7 +473,7 @@ int main(int argc, char const *argv[])
   }
   else
   {
-    cout << "Não foi possível abrir o arquivo" << endl;
+    cout << "Could not be able to open data file!" << endl;
   }
 
   return 0;
