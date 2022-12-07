@@ -2,22 +2,24 @@
 
 #include "../src/include/arvore.h"
 
-cab *start_tree()
+tNode *start_tree()
 {
-
-  cab *tmp = new cab; 
-  tmp->raiz = NULL; 
-
-  return tmp;
+  return NULL;
 }
 
-/*tNode *end_tree(tNode *raiz)
+void end_tree(tNode *raiz)
 {
+  if (raiz == NULL)
+  {
+    return;
+  }
+  end_tree(raiz->left_node);
+  end_tree(raiz->right_node);
+  delete (raiz);
+  std::cout << "\nA raiz foi desalocada" << std::endl;
+}
 
-
-}*/
-
-tNode *insert(tNode *raiz, int value) // ai pra passar aq eh fácil só passar o cabeçalho->raiz q vo ta sempre passando a raiz 
+tNode *insert(tNode *raiz, int value) // ai pra passar aq eh fácil só passar o cabeçalho->raiz q vo ta sempre passando a raiz
 {
 
   if (raiz == NULL)
@@ -32,10 +34,22 @@ tNode *insert(tNode *raiz, int value) // ai pra passar aq eh fácil só passar o
   if (raiz->value > value)
   {
     raiz->left_node = insert(raiz->left_node, value);
-  } else {
+  }
+  else
+  {
     raiz->right_node = insert(raiz->right_node, value);
   }
-  std::cout << "test";
   return raiz;
+}
 
+void printInOrder(tNode *raiz)
+{
+  if (raiz == NULL)
+  {
+    return;
+  }
+
+  printInOrder(raiz->left_node);
+  std::cout << raiz->value << " ";
+  printInOrder(raiz->right_node);
 }

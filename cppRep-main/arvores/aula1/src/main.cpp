@@ -4,24 +4,25 @@
 
 using namespace std;
 
-cab *cabecalho; // ponteiro pro cabeçalho da árvore
+tNode *raiz; // ponteiro pro cabeçalho da árvore
 
 int main(int argc, char const *argv[])
 {
 
-  cabecalho = start_tree(); // inicializando o cabeçalho
+  raiz = start_tree(); // inicializando o cabeçalho
   // cabeçalho->raiz ==  NULL se a árvore está vazia.
-  // ou simplesmente raiz == null que eu acho mais fácil. 
+  // ou simplesmente raiz == null que eu acho mais fácil.
 
-  tNode *arv = cabecalho->raiz; 
+  raiz = insert(raiz, 10);
 
-  tNode *test = insert(arv, 10);
-  cout << test->value << endl;
-  test = insert(arv, 20);
-  cout << test->value << endl;
+  raiz = insert(raiz, 30);
 
-  test = insert(arv, 30);
-  cout << test->value << endl;
+  raiz = insert(raiz, 20);
+
+  printInOrder(raiz);
+
+  end_tree(raiz);
+  
 
   return 0;
 }

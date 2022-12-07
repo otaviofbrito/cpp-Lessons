@@ -11,18 +11,13 @@ typedef struct tNode_{
 }tNode;
 
 
-typedef struct cab_ { 
-int tam; 
-struct tNode_ *raiz; 
-} cab; 
+tNode *start_tree();
 
+void end_tree(tNode *raiz);
 
+tNode *insert(tNode *raiz,  int value);
 
-cab *start_tree();
-
-tNode *insert(tNode *raiz , int value);
-
-
+void printInOrder(tNode *raiz);
 
 
 
