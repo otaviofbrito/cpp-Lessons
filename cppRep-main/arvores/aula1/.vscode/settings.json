@@ -1,0 +1,9 @@
+{
+  "makefile.launchConfigurations": [
+    {
+      "cwd": "/home/otaviofbrito/Documents/unifal/aeds2/codes/cppRep-main/arvores/aula1",
+      "binaryPath": "/home/otaviofbrito/Documents/unifal/aeds2/codes/cppRep-main/arvores/aula1/myapp",
+      "binaryArgs": []
+    }
+  ]
+}

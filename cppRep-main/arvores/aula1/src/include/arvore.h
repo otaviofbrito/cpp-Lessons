@@ -17,9 +17,15 @@ void end_tree(tNode *raiz);
 
 tNode *insert(tNode *raiz,  int value);
 
+tNode *search(tNode *raiz, int value);
+
 void printInOrder(tNode *raiz);
 
+tNode *getNewNode(int value);
 
+tNode *minValueNode(tNode *node);
+
+tNode *removeNode(tNode *raiz, int value);
 
 
 
