@@ -31,7 +31,6 @@ using namespace std;
 
 // Cabeçalhos para as listas desenvolvidas.
 tLista *ptlista;
-tLista *ord_lista;
 
 /**
  * @brief Realiza a função de busca na lista principal, caso seja requisitado pelo usuário, remove um veículo encontrado.
@@ -352,8 +351,7 @@ int main(int argc, char const *argv[])
         deleta_carros(ptlista);
         cout << "\n Desalocando lista principal..." << endl;
         ptlista = encerra_lista(ptlista);
-        cout << "\n Desalocando lista ordenada..." << endl;
-        ord_lista = encerra_lista(ord_lista);
+
 
         cout << "\n Aplicação encerrada\n"
              << endl;
