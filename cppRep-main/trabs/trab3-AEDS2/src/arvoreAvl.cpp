@@ -135,7 +135,7 @@ noArvAvl *insere_noAvl(noArvAvl *raiz, no_ *no_lista)
 noArvAvl *no_menor_valor(noArvAvl *raiz)
 {
   noArvAvl *atual = raiz;
-  while (atual->no_esq != NULL)
+  while(atual->no_esq != NULL)
   {
     atual = atual->no_esq;
   }
@@ -186,7 +186,7 @@ noArvAvl *deletar_noAvl(noArvAvl *raiz, no *no_lista)
     return raiz;
   }
 
-  raiz->altura = 1 + maximo(alturaAvl(raiz->no_esq), alturaAvl(raiz->no_dir));
+  raiz->altura = maximo(alturaAvl(raiz->no_esq), alturaAvl(raiz->no_dir)) + 1;
 
   int bal = balanceamento(raiz);
 

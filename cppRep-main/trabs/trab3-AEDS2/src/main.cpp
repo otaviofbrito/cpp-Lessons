@@ -61,11 +61,12 @@ void buscaCarro(tLista *lista, string plate)
     if (resposta == "s")
     {
       no *car_removed = remove_enc(lista, plate);
-      //remover da arvore Avl:
-      if(ptArvoreAvl != NULL && car_removed->pt_dcar->cambio == "Manual"){
+      // remover da arvore Avl:
+      if (ptArvoreAvl != NULL && car_removed->pt_dcar->cambio == "Manual")
+      {
         ptArvoreAvl = deletar_noAvl(ptArvoreAvl, car_removed);
         cout << "\nVeículo removido com sucesso da arvore Avl!\n"
-           << "*--------------✓------------*" << endl;
+             << "*--------------✓------------*" << endl;
       }
 
       cout << "\nVeículo removido com sucesso da lista principal!\n"
@@ -141,8 +142,9 @@ int insertCar(tLista *ptlista)
     {
       ptArvoreBin = insere_noBin(ptArvoreBin, no_novo_carro);
     }
-    
-    if(ptArvoreAvl != NULL && novo_carro->cambio == "Manual"){
+
+    if (ptArvoreAvl != NULL && novo_carro->cambio == "Manual")
+    {
       ptArvoreAvl = insere_noAvl(ptArvoreAvl, no_novo_carro);
     }
 
@@ -164,14 +166,14 @@ void saveFile(tLista *ptlista)
     if (ptlista->lista == NULL)
     {
       car_database << "";
-      cout << "\nBANCO DE DADOS ATUALIZADO!"
+      cout << "\nBANCO DE DADOS ATUALIZADO! (VAZIO)"
            << "\n*--------------✓------------*" << endl;
     }
     else
     {
 
       no *ptr = ptlista->lista;
-      while (ptr != NULL)
+      while (ptr->prox != NULL)
       {
         car_database << ptr->pt_dcar->modelo << " ";
         car_database << ptr->pt_dcar->marca << " ";
@@ -185,18 +187,22 @@ void saveFile(tLista *ptlista)
         car_database << ptr->pt_dcar->cor << " ";
         car_database << ptr->pt_dcar->portas << " ";
         car_database << ptr->pt_dcar->placa << " ";
-        if (ptr->prox == NULL)
-        {
-
-          car_database << ptr->pt_dcar->valor;
-        }
-        else
-        {
-          car_database << ptr->pt_dcar->valor << endl;
-        }
-
+        car_database << ptr->pt_dcar->valor << endl;
         ptr = ptr->prox;
       }
+      car_database << ptr->pt_dcar->modelo << " ";
+      car_database << ptr->pt_dcar->marca << " ";
+      car_database << ptr->pt_dcar->tipo << " ";
+      car_database << ptr->pt_dcar->ano << " ";
+      car_database << ptr->pt_dcar->km << " ";
+      car_database << ptr->pt_dcar->potencia << " ";
+      car_database << ptr->pt_dcar->combustivel << " ";
+      car_database << ptr->pt_dcar->cambio << " ";
+      car_database << ptr->pt_dcar->direcao << " ";
+      car_database << ptr->pt_dcar->cor << " ";
+      car_database << ptr->pt_dcar->portas << " ";
+      car_database << ptr->pt_dcar->placa << " ";
+      car_database << ptr->pt_dcar->valor;
 
       car_database.close();
       cout << "\nBANCO DE DADOS ATUALIZADO!"
@@ -303,6 +309,7 @@ int main(int argc, char const *argv[])
       ptlista->tam = 0;
     }
 
+    int altura_arvore;
     string placa_busca;
     int opt;
 
@@ -332,53 +339,66 @@ int main(int argc, char const *argv[])
         break;
 
       case 3:
-        int altura_arvore;
-        if (ptArvoreBin == NULL)
+        if (ptlista->lista == NULL)
         {
-          no *pont = ptlista->lista;
-          while (pont != NULL)
-          {
-            if (pont->pt_dcar->direcao == "Hidraulica")
-            {
-              ptArvoreBin = insere_noBin(ptArvoreBin, pont);
-            }
-            pont = pont->prox;
-          }
-
-          pre_ordemBin(ptArvoreBin);
-          altura_arvore = alturaBin(ptArvoreBin);
-          cout << "\nÁrvore binária de altura : "<< altura_arvore << " criada!" << endl;
+          cout << "\nNAO FOI POSSIVEL CRIAR ARVORE BINARIA: BANCO DE DADOS ESTÁ VAZIO!" << endl;
         }
         else
         {
-          altura_arvore = alturaBin(ptArvoreBin);
-          cout << "\nÁrvore binária de altura : "<< altura_arvore << " ja foi criada!" << endl;
-          pre_ordemBin(ptArvoreBin);
+          if (ptArvoreBin == NULL)
+          {
+            no *pont = ptlista->lista;
+            while (pont != NULL)
+            {
+              if (pont->pt_dcar->direcao == "Hidraulica")
+              {
+                ptArvoreBin = insere_noBin(ptArvoreBin, pont);
+              }
+              pont = pont->prox;
+            }
+
+            pre_ordemBin(ptArvoreBin);
+            altura_arvore = alturaBin(ptArvoreBin);
+            cout << "\nÁrvore binária de altura : " << altura_arvore << " criada!" << endl;
+          }
+          else
+          {
+            altura_arvore = alturaBin(ptArvoreBin);
+            cout << "\nÁrvore binária de altura : " << altura_arvore << " ja foi criada!" << endl;
+            pre_ordemBin(ptArvoreBin);
+          }
         }
         break;
 
       case 4:
-        if (ptArvoreAvl == NULL)
+        if (ptlista->lista == NULL)
         {
-          no *pont = ptlista->lista;
-          while (pont != NULL)
-          {
-            if (pont->pt_dcar->cambio == "Manual")
-            {
-              ptArvoreAvl = insere_noAvl(ptArvoreAvl, pont);
-            }
-            pont = pont->prox;
-          }
-
-          pre_ordemAvl(ptArvoreAvl);
-          altura_arvore = alturaAvl(ptArvoreAvl);
-          cout << "\nÁrvore AVL de altura : "<< altura_arvore << " criada!" << endl;
+          cout << "\nNAO FOI POSSIVEL CRIAR ARVORE AVL: BANCO DE DADOS ESTÁ VAZIO!" << endl;
         }
         else
         {
-          altura_arvore = alturaAvl(ptArvoreAvl);
-          cout << "\nÁrvore AVL de altura : "<< altura_arvore << " ja foi criada!" << endl;
-          pre_ordemAvl(ptArvoreAvl);
+          if (ptArvoreAvl == NULL)
+          {
+            no *pont = ptlista->lista;
+            while (pont != NULL)
+            {
+              if (pont->pt_dcar->cambio == "Manual")
+              {
+                ptArvoreAvl = insere_noAvl(ptArvoreAvl, pont);
+              }
+              pont = pont->prox;
+            }
+
+            pre_ordemAvl(ptArvoreAvl);
+            altura_arvore = alturaAvl(ptArvoreAvl);
+            cout << "\nÁrvore AVL de altura : " << altura_arvore << " criada!" << endl;
+          }
+          else
+          {
+            altura_arvore = alturaAvl(ptArvoreAvl);
+            cout << "\nÁrvore AVL de altura : " << altura_arvore << " ja foi criada!" << endl;
+            pre_ordemAvl(ptArvoreAvl);
+          }
         }
         break;
 
