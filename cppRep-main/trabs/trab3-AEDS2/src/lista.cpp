@@ -132,7 +132,7 @@ void insere_inicio(tLista *ptlista, dcar *new_car)
  * @param ptlista endereco do cabeçalho.
  * @param new_car endereço de uma struct dcar.
  */
-void insere_fim(tLista *ptlista, dcar *new_car)
+no *insere_fim(tLista *ptlista, dcar *new_car)
 {
 
   no *ant; // lista aponta para o nó
@@ -145,6 +145,7 @@ void insere_fim(tLista *ptlista, dcar *new_car)
     novo_no->prox = ptlista->lista; // recebe o valor NULL, para manter esse null.
     ptlista->lista = novo_no;       // agora ptlista->lista aponta para o primeiro nó.
     ptlista->tam++;
+    return novo_no;
   }
   else
   {
@@ -158,6 +159,7 @@ void insere_fim(tLista *ptlista, dcar *new_car)
     novo_no->prox = ant->prox;
     ant->prox = novo_no;
     ptlista->tam++;
+    return novo_no;
   }
 }
 

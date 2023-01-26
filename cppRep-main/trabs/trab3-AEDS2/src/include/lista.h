@@ -1,4 +1,3 @@
-
 #ifndef LISTA_H
 
 #define LISTA_H
@@ -51,7 +50,7 @@ void insere_inicio(tLista *ptlista, dcar *new_car);
 
 no *remove_inicio(tLista *ptlista);
 
-void insere_fim(tLista *ptlista, dcar *new_car);
+no *insere_fim(tLista *ptlista, dcar *new_car);
 
 no *remove_fim(tLista *ptlista);
 

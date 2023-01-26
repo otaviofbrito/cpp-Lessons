@@ -25,13 +25,15 @@
 #include <algorithm> //transform
 
 #include "../src/include/lista.h"
-#include "../src/include/arvore.h"
+#include "../src/include/arvorebin.h"
+#include "../src/include/arvoreavl.h"
 
 using namespace std;
 
 // Cabeçalhos para as listas desenvolvidas.
 tLista *ptlista;
 noArv *ptArvoreBin = NULL;
+noArvAvl *ptArvoreAvl = NULL;
 
 /**
  * @brief Realiza a função de busca na lista principal, caso seja requisitado pelo usuário, remove um veículo encontrado.
@@ -59,7 +61,14 @@ void buscaCarro(tLista *lista, string plate)
     if (resposta == "s")
     {
       no *car_removed = remove_enc(lista, plate);
-      cout << "\nVeículo removido com sucesso!\n"
+      //remover da arvore Avl:
+      if(ptArvoreAvl != NULL && car_removed->pt_dcar->cambio == "Manual"){
+        ptArvoreAvl = deletar_noAvl(ptArvoreAvl, car_removed);
+        cout << "\nVeículo removido com sucesso da arvore Avl!\n"
+           << "*--------------✓------------*" << endl;
+      }
+
+      cout << "\nVeículo removido com sucesso da lista principal!\n"
            << "*--------------✓------------*" << endl;
 
       delete (car_removed->pt_dcar);
@@ -122,14 +131,23 @@ int insertCar(tLista *ptlista)
     cout << "Preço: ";
     cin >> novo_carro->valor;
 
-    insere_fim(ptlista, novo_carro);
+    no *no_novo_carro = insere_fim(ptlista, novo_carro);
 
-    cout << "\nVEÍCULO INSERIDO COM SUCESSO!\n"
+    cout << "\nVEÍCULO INSERIDO COM SUCESSO NA LISTA PRINCIPAL!\n"
          << "*--------------✓------------*\n";
+
+    // Alocar o carro na arvore binaria de acordo com o tipo de direção:
+    if (ptArvoreBin != NULL && novo_carro->direcao == "Hidraulica")
+    {
+      ptArvoreBin = insere_noBin(ptArvoreBin, no_novo_carro);
+    }
+    
+    if(ptArvoreAvl != NULL && novo_carro->cambio == "Manual"){
+      ptArvoreAvl = insere_noAvl(ptArvoreAvl, no_novo_carro);
+    }
 
     return 1;
   }
-  return 0;
 }
 
 /**
@@ -314,27 +332,54 @@ int main(int argc, char const *argv[])
         break;
 
       case 3:
+        int altura_arvore;
         if (ptArvoreBin == NULL)
         {
           no *pont = ptlista->lista;
-          while (pont != NULL && pont->pt_dcar->direcao == "Hidráulica")
+          while (pont != NULL)
           {
-            ptArvoreBin = insere_no(ptArvoreBin, pont);
+            if (pont->pt_dcar->direcao == "Hidraulica")
+            {
+              ptArvoreBin = insere_noBin(ptArvoreBin, pont);
+            }
             pont = pont->prox;
           }
-         
-          pre_ordem(ptArvoreBin);
-          encerra_arvore(ptArvoreBin);
-          cout << "Árvore encerrada binária" << endl;
+
+          pre_ordemBin(ptArvoreBin);
+          altura_arvore = alturaBin(ptArvoreBin);
+          cout << "\nÁrvore binária de altura : "<< altura_arvore << " criada!" << endl;
         }
         else
         {
-          cout << "Arvore ja foi criada!" << endl;
+          altura_arvore = alturaBin(ptArvoreBin);
+          cout << "\nÁrvore binária de altura : "<< altura_arvore << " ja foi criada!" << endl;
+          pre_ordemBin(ptArvoreBin);
         }
         break;
 
       case 4:
-        cout << "CONSTRUCAO ARVORE AVL" << endl;
+        if (ptArvoreAvl == NULL)
+        {
+          no *pont = ptlista->lista;
+          while (pont != NULL)
+          {
+            if (pont->pt_dcar->cambio == "Manual")
+            {
+              ptArvoreAvl = insere_noAvl(ptArvoreAvl, pont);
+            }
+            pont = pont->prox;
+          }
+
+          pre_ordemAvl(ptArvoreAvl);
+          altura_arvore = alturaAvl(ptArvoreAvl);
+          cout << "\nÁrvore AVL de altura : "<< altura_arvore << " criada!" << endl;
+        }
+        else
+        {
+          altura_arvore = alturaAvl(ptArvoreAvl);
+          cout << "\nÁrvore AVL de altura : "<< altura_arvore << " ja foi criada!" << endl;
+          pre_ordemAvl(ptArvoreAvl);
+        }
         break;
 
       case 5:
@@ -366,6 +411,12 @@ int main(int argc, char const *argv[])
         deleta_carros(ptlista);
         cout << "\n Desalocando lista principal..." << endl;
         ptlista = encerra_lista(ptlista);
+
+        encerra_arvoreBin(ptArvoreBin);
+        cout << "Arvore binaria encerrada" << endl;
+
+        encerra_arvoreAvl(ptArvoreAvl);
+        cout << "Arvore Avl encerrada" << endl;
 
         cout << "\n Aplicação encerrada\n"
              << endl;
