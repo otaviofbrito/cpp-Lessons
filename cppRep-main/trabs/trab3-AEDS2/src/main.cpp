@@ -31,6 +31,7 @@ using namespace std;
 
 // Cabeçalhos para as listas desenvolvidas.
 tLista *ptlista;
+noArv *ptArvoreBin = NULL;
 
 /**
  * @brief Realiza a função de busca na lista principal, caso seja requisitado pelo usuário, remove um veículo encontrado.
@@ -130,7 +131,6 @@ int insertCar(tLista *ptlista)
   }
   return 0;
 }
-
 
 /**
  * @brief Reescreve no arquivo (banco de dados), as alterações(se realizadas) na lista principal durante a execução do programa.
@@ -288,7 +288,6 @@ int main(int argc, char const *argv[])
     string placa_busca;
     int opt;
 
-
     do
     {
       opt = menu_db();
@@ -315,7 +314,23 @@ int main(int argc, char const *argv[])
         break;
 
       case 3:
-        insere_no();
+        if (ptArvoreBin == NULL)
+        {
+          no *pont = ptlista->lista;
+          while (pont != NULL && pont->pt_dcar->direcao == "Hidráulica")
+          {
+            ptArvoreBin = insere_no(ptArvoreBin, pont);
+            pont = pont->prox;
+          }
+         
+          pre_ordem(ptArvoreBin);
+          encerra_arvore(ptArvoreBin);
+          cout << "Árvore encerrada binária" << endl;
+        }
+        else
+        {
+          cout << "Arvore ja foi criada!" << endl;
+        }
         break;
 
       case 4:
@@ -351,7 +366,6 @@ int main(int argc, char const *argv[])
         deleta_carros(ptlista);
         cout << "\n Desalocando lista principal..." << endl;
         ptlista = encerra_lista(ptlista);
-
 
         cout << "\n Aplicação encerrada\n"
              << endl;

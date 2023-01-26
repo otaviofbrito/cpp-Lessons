@@ -4,16 +4,9 @@
 
 using namespace std;
 
-
-
-
 noArv *inicia_arvore()
 {
-  noArv *tmp = new (noArv);
-  tmp->nodeList = NULL;
-  tmp->no_esq = NULL;
-  tmp->no_dir = NULL;
-  return tmp;
+  return NULL;
 }
 
 void encerra_arvore(noArv *raiz)
@@ -28,16 +21,23 @@ void encerra_arvore(noArv *raiz)
   return;
 }
 
+noArv *arvNovoNo(no_ *no_lista)
+{
+  noArv *raiz = new (noArv);
+  raiz->nodeList = no_lista;
+  raiz->no_esq = NULL;
+  raiz->no_dir = NULL;
+  return raiz;
+}
+
 noArv *insere_no(noArv *raiz, no_ *no_lista)
 {
   if (raiz == NULL)
   {
-    raiz = new (noArv);
-    raiz->nodeList = no_lista;
-    raiz->no_esq = NULL;
-    raiz->no_dir = NULL;
+    return arvNovoNo(no_lista);
   }
-  else if (no_lista->pt_dcar->placa < raiz->nodeList->pt_dcar->placa)
+
+  if (no_lista->pt_dcar->placa < raiz->nodeList->pt_dcar->placa)
   {
     raiz->no_esq = insere_no(raiz->no_esq, no_lista);
   }

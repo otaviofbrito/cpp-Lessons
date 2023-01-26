@@ -26,4 +26,6 @@ int altura(noArv *raiz);
 
 void pre_ordem(noArv *raiz);
 
+noArv *arvNovoNo(no_ *no_lista);
+
 #endif /* AROVRE_H */
