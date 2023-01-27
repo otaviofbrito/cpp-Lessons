@@ -27,4 +27,6 @@ void pre_ordemBin(noArv *raiz);
 
 noArv *arvBinNovoNo(no_ *no_lista);
 
+noArv *removeArvBin(noArv *raiz, no_ *no_lista);
+
 #endif /* AROVREBIN_H */

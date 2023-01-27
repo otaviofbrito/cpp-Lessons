@@ -132,12 +132,12 @@ noArvAvl *insere_noAvl(noArvAvl *raiz, no_ *no_lista)
   return raiz;
 }
 
-noArvAvl *no_menor_valor(noArvAvl *raiz)
+noArvAvl *no_maior_valor(noArvAvl *raiz)
 {
   noArvAvl *atual = raiz;
-  while(atual->no_esq != NULL)
+  while(atual->no_dir != NULL)
   {
-    atual = atual->no_esq;
+    atual = atual->no_dir;
   }
   return atual;
 }
@@ -156,9 +156,7 @@ noArvAvl *deletar_noAvl(noArvAvl *raiz, no *no_lista)
   else if (no_lista->pt_dcar->placa > raiz->nodeList->pt_dcar->placa)
   {
     raiz->no_dir = deletar_noAvl(raiz->no_dir, no_lista);
-  }
-  else
-  {
+  } else {
     if ((raiz->no_esq == NULL) || (raiz->no_dir == NULL))
     {
       noArvAvl *temp = raiz->no_esq ? raiz->no_esq : raiz->no_dir;
@@ -175,9 +173,9 @@ noArvAvl *deletar_noAvl(noArvAvl *raiz, no *no_lista)
     }
     else
     {
-      noArvAvl *temp = no_menor_valor(raiz->no_dir);
+      noArvAvl *temp = no_maior_valor(raiz->no_esq);
       raiz->nodeList = temp->nodeList;
-      raiz->no_dir = deletar_noAvl(raiz->no_dir, temp->nodeList);
+      raiz->no_esq = deletar_noAvl(raiz->no_esq, temp->nodeList);
     }
   }
 
@@ -186,7 +184,7 @@ noArvAvl *deletar_noAvl(noArvAvl *raiz, no *no_lista)
     return raiz;
   }
 
-  raiz->altura = maximo(alturaAvl(raiz->no_esq), alturaAvl(raiz->no_dir)) + 1;
+  raiz->altura = 1 + maximo(alturaAvl(raiz->no_esq), alturaAvl(raiz->no_dir));
 
   int bal = balanceamento(raiz);
 
@@ -211,6 +209,7 @@ noArvAvl *deletar_noAvl(noArvAvl *raiz, no *no_lista)
     raiz->no_dir = rotacao_direita(raiz->no_dir);
     return rotacao_esquerda(raiz);
   }
+
   return raiz;
 }
 

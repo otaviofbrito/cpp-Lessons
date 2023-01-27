@@ -69,6 +69,14 @@ void buscaCarro(tLista *lista, string plate)
              << "*--------------✓------------*" << endl;
       }
 
+      // remover da arvore Binaria:
+      if (ptArvoreBin != NULL && car_removed->pt_dcar->direcao == "Hidraulica")
+      {
+        ptArvoreBin = removeArvBin(ptArvoreBin, car_removed);
+        cout << "\nVeículo removido com sucesso da arvore Binária!\n"
+             << "*--------------✓------------*" << endl;
+      }
+
       cout << "\nVeículo removido com sucesso da lista principal!\n"
            << "*--------------✓------------*" << endl;
 

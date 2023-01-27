@@ -69,6 +69,55 @@ int alturaBin(noArv *raiz)
   }
 }
 
+noArv *valorMax(noArv *raiz)
+{
+  noArv *aux = raiz; // nó que eu irei encontrar o menor dos maiores
+  while (aux && aux->no_dir != NULL)
+  {
+    aux = aux->no_dir;
+  }
+  return aux;
+}
+
+noArv *removeArvBin(noArv *raiz, no_ *no_lista)
+{
+
+  if (raiz == NULL)
+  {
+    return raiz;
+  }
+
+  if (no_lista->pt_dcar->placa < raiz->nodeList->pt_dcar->placa)
+  {
+    raiz->no_esq = removeArvBin(raiz->no_esq, no_lista);
+  }
+  else if (no_lista->pt_dcar->placa > raiz->nodeList->pt_dcar->placa)
+  {
+    raiz->no_dir = removeArvBin(raiz->no_dir, no_lista);
+  }
+  else
+  {
+     if (raiz->no_esq == NULL)
+    {
+      noArv *tmp = raiz->no_dir;
+      delete (raiz);
+      return tmp;
+    }
+    else if (raiz->no_dir == NULL)
+    {
+      noArv *tmp = raiz->no_esq;
+      delete (raiz);
+      return tmp;
+    }
+
+    noArv *min = valorMax(raiz->no_esq);
+    raiz->nodeList = min->nodeList;
+    raiz->no_esq = removeArvBin(raiz->no_esq, min->nodeList);
+  }
+
+  return raiz;
+}
+
 void pre_ordemBin(noArv *raiz)
 {
   if (raiz != NULL)

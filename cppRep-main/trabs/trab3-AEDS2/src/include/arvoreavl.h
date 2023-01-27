@@ -14,7 +14,6 @@ typedef struct noArvAvl_
   int altura;
 } noArvAvl;
 
-
 noArvAvl *inicia_arvoreAvl();
 
 void encerra_arvoreAvl(noArvAvl *raiz);
@@ -29,8 +28,14 @@ int alturaAvl(noArvAvl *raiz);
 
 void pre_ordemAvl(noArvAvl *raiz);
 
+noArvAvl *no_maior_valor(noArvAvl *raiz);
 
+int balanceamento(noArvAvl *raiz);
 
+noArvAvl *rotacao_direita(noArvAvl *raiz);
 
+noArvAvl *rotacao_esquerda(noArvAvl *raiz);
+
+int maximo(int a, int b);
 
 #endif /* ARVOREAVL_H */
