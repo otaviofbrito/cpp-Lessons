@@ -38,4 +38,6 @@ noArvAvl *rotacao_esquerda(noArvAvl *raiz);
 
 int maximo(int a, int b);
 
+void relatorio_preOrdemAvl(noArvAvl *raiz);
+
 #endif /* ARVOREAVL_H */

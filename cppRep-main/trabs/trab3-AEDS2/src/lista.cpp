@@ -19,7 +19,7 @@ tLista *inicia_lista()
   tmp->tam = 0;
   tmp->lista = NULL;
 
-  cout << "\n✓ - Estrutura iniciada com sucesso!" << endl;
+  cout << "\n✓ - Lista principal iniciada com sucesso!" << endl;
 
   return tmp;
 }
@@ -48,7 +48,7 @@ tLista *encerra_lista(tLista *ptlista)
 
   delete (ptlista);
 
-  cout << "\n✓ - Estrutura removida com sucesso!" << endl;
+  cout << "\n✓ - Lista principal desalocada!" << endl;
 
   return NULL;
 }

@@ -1,14 +1,27 @@
 #include <iostream>
+#include <iomanip> //imprime tabela
 #include "../src/include/arvoreavl.h"
 #include "../src/include/lista.h"
 
 using namespace std;
 
+
+/**
+ * @brief Inicia a arvore AVL
+ * 
+ * @return noArvAvl* 
+ */
 noArvAvl *inicia_arvoreAvl()
 {
+  cout << "\n✓ - Arvore AVL iniciada com sucesso!" << endl;
   return NULL;
 }
 
+/**
+ * @brief Encerra a arvore AVL
+ * 
+ * @param raiz 
+ */
 void encerra_arvoreAvl(noArvAvl *raiz)
 {
   if (raiz != NULL)
@@ -16,11 +29,17 @@ void encerra_arvoreAvl(noArvAvl *raiz)
     encerra_arvoreAvl(raiz->no_esq);
     encerra_arvoreAvl(raiz->no_dir);
     delete (raiz);
-    cout << "\n✓ - No da arvore Avl removido com sucesso!" << endl;
   }
   return;
 }
 
+
+/**
+ * @brief Cria um novo nó para a arvore AVL
+ * 
+ * @param no_lista 
+ * @return noArvAvl* 
+ */
 noArvAvl *arvAvlNovoNo(no_ *no_lista)
 {
   noArvAvl *raiz = new (noArvAvl);
@@ -31,6 +50,12 @@ noArvAvl *arvAvlNovoNo(no_ *no_lista)
   return raiz;
 }
 
+/**
+ * @brief Calcula a altura da arvore AVL
+ * 
+ * @param no_avl 
+ * @return int 
+ */
 int alturaAvl(noArvAvl *no_avl)
 {
   if (no_avl == NULL)
@@ -40,11 +65,25 @@ int alturaAvl(noArvAvl *no_avl)
   return no_avl->altura;
 }
 
+/**
+ * @brief Calcula o maximo entre dois inteiros
+ * 
+ * @param a 
+ * @param b 
+ * @return int 
+ */
 int maximo(int a, int b)
 {
   return (a > b) ? a : b;
 }
 
+
+/**
+ * @brief Realiza a rotacao a direita
+ * 
+ * @param raiz_no 
+ * @return noArvAvl* 
+ */
 noArvAvl *rotacao_direita(noArvAvl *raiz_no)
 {
   noArvAvl *nova_raiz = raiz_no->no_esq;
@@ -59,6 +98,12 @@ noArvAvl *rotacao_direita(noArvAvl *raiz_no)
   return nova_raiz;
 }
 
+/**
+ * @brief Realiza a rotacao a esquerda
+ * 
+ * @param raiz_no 
+ * @return noArvAvl* 
+ */
 noArvAvl *rotacao_esquerda(noArvAvl *raiz_no)
 {
   noArvAvl *nova_raiz = raiz_no->no_dir;
@@ -73,6 +118,12 @@ noArvAvl *rotacao_esquerda(noArvAvl *raiz_no)
   return nova_raiz;
 }
 
+/**
+ * @brief Calcula o fator balanceamento da arvore AVL
+ * 
+ * @param no_avl 
+ * @return int 
+ */
 int balanceamento(noArvAvl *no_avl)
 {
   if (no_avl == NULL)
@@ -82,6 +133,13 @@ int balanceamento(noArvAvl *no_avl)
   return alturaAvl(no_avl->no_esq) - alturaAvl(no_avl->no_dir);
 }
 
+/**
+ * @brief Insere um no na arvore AVL
+ * 
+ * @param raiz 
+ * @param no_lista 
+ * @return noArvAvl* 
+ */
 noArvAvl *insere_noAvl(noArvAvl *raiz, no_ *no_lista)
 {
   if (raiz == NULL)
@@ -132,16 +190,29 @@ noArvAvl *insere_noAvl(noArvAvl *raiz, no_ *no_lista)
   return raiz;
 }
 
+/**
+ * @brief Encontra o no com o maior valor da arvore AVL
+ * 
+ * @param raiz 
+ * @return noArvAvl* 
+ */
 noArvAvl *no_maior_valor(noArvAvl *raiz)
 {
   noArvAvl *atual = raiz;
-  while(atual->no_dir != NULL)
+  while (atual->no_dir != NULL)
   {
     atual = atual->no_dir;
   }
   return atual;
 }
 
+/**
+ * @brief Deleta um no da arvore AVL
+ * 
+ * @param raiz 
+ * @param no_lista 
+ * @return noArvAvl* 
+ */
 noArvAvl *deletar_noAvl(noArvAvl *raiz, no *no_lista)
 {
   if (raiz == NULL)
@@ -156,7 +227,9 @@ noArvAvl *deletar_noAvl(noArvAvl *raiz, no *no_lista)
   else if (no_lista->pt_dcar->placa > raiz->nodeList->pt_dcar->placa)
   {
     raiz->no_dir = deletar_noAvl(raiz->no_dir, no_lista);
-  } else {
+  }
+  else
+  {
     if ((raiz->no_esq == NULL) || (raiz->no_dir == NULL))
     {
       noArvAvl *temp = raiz->no_esq ? raiz->no_esq : raiz->no_dir;
@@ -213,6 +286,11 @@ noArvAvl *deletar_noAvl(noArvAvl *raiz, no *no_lista)
   return raiz;
 }
 
+/**
+ * @brief Percorre a arvore AVL em pre-ordem
+ * 
+ * @param raiz 
+ */
 void pre_ordemAvl(noArvAvl *raiz)
 {
   if (raiz != NULL)
@@ -220,5 +298,32 @@ void pre_ordemAvl(noArvAvl *raiz)
     cout << raiz->nodeList->pt_dcar->placa << " ";
     pre_ordemAvl(raiz->no_esq);
     pre_ordemAvl(raiz->no_dir);
+  }
+}
+
+/**
+ * @brief Imprime o relatorio da arvore AVL
+ * 
+ * @param raiz 
+ */
+void relatorio_preOrdemAvl(noArvAvl *raiz)
+{
+  if (raiz != NULL)
+  {
+    cout << left
+         << setw(0) << raiz->nodeList->pt_dcar->placa << " - "
+         << setw(20) << raiz->nodeList->pt_dcar->marca
+         << setw(20) << raiz->nodeList->pt_dcar->modelo
+         << setw(10) << raiz->nodeList->pt_dcar->ano
+         << setw(20) << raiz->nodeList->pt_dcar->cambio
+         << setw(15) << raiz->nodeList->pt_dcar->direcao
+         << setw(10) << raiz->nodeList->pt_dcar->potencia
+         << setw(10) << raiz->nodeList->pt_dcar->tipo
+         << setw(10) << raiz->nodeList->pt_dcar->cor
+         << setw(0) << "R$: "
+         << setw(10) << raiz->nodeList->pt_dcar->valor;
+    cout << "\n";
+    relatorio_preOrdemAvl(raiz->no_esq);
+    relatorio_preOrdemAvl(raiz->no_dir);
   }
 }

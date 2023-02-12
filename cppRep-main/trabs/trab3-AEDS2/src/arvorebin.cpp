@@ -1,14 +1,26 @@
 #include <iostream>
+#include <iomanip> //imprime tabela
 #include "../src/include/arvorebin.h"
 #include "../src/include/lista.h"
 
 using namespace std;
 
+/**
+ * @brief Inicia a arvore binaria
+ * 
+ * @return noArv* 
+ */
 noArv *inicia_arvoreBin()
 {
+  cout << "\n✓ - Arvore binaria iniciada com sucesso!" << endl;
   return NULL;
 }
 
+/**
+ * @brief Encerra a arvore binaria
+ * 
+ * @param raiz 
+ */
 void encerra_arvoreBin(noArv *raiz)
 {
   if (raiz != NULL)
@@ -16,11 +28,17 @@ void encerra_arvoreBin(noArv *raiz)
     encerra_arvoreBin(raiz->no_esq);
     encerra_arvoreBin(raiz->no_dir);
     delete (raiz);
-    cout << "\n✓ - No da arvore binaria removido com sucesso!" << endl;
+ 
   }
   return;
 }
 
+/**
+ * @brief Cria um novo nó para a arvore binaria
+ * 
+ * @param no_lista 
+ * @return noArv* 
+ */
 noArv *arvBinNovoNo(no_ *no_lista)
 {
   noArv *raiz = new (noArv);
@@ -30,6 +48,13 @@ noArv *arvBinNovoNo(no_ *no_lista)
   return raiz;
 }
 
+/**
+ * @brief Insere um novo nó na arvore binaria
+ * 
+ * @param raiz 
+ * @param no_lista 
+ * @return noArv* 
+ */
 noArv *insere_noBin(noArv *raiz, no_ *no_lista)
 {
   if (raiz == NULL)
@@ -48,6 +73,12 @@ noArv *insere_noBin(noArv *raiz, no_ *no_lista)
   return raiz;
 }
 
+/**
+ * @brief Calcula a altura da arvore binaria
+ * 
+ * @param raiz 
+ * @return int 
+ */
 int alturaBin(noArv *raiz)
 {
   if (raiz == NULL)
@@ -69,6 +100,12 @@ int alturaBin(noArv *raiz)
   }
 }
 
+/**
+ * @brief Encontra o maior valor da arvore /subarvore
+ * 
+ * @param raiz 
+ * @return noArv* 
+ */
 noArv *valorMax(noArv *raiz)
 {
   noArv *aux = raiz; // nó que eu irei encontrar o menor dos maiores
@@ -79,6 +116,13 @@ noArv *valorMax(noArv *raiz)
   return aux;
 }
 
+/**
+ * @brief Remove um nó da arvore binaria
+ * 
+ * @param raiz 
+ * @param no_lista 
+ * @return noArv* 
+ */
 noArv *removeArvBin(noArv *raiz, no_ *no_lista)
 {
 
@@ -97,7 +141,7 @@ noArv *removeArvBin(noArv *raiz, no_ *no_lista)
   }
   else
   {
-     if (raiz->no_esq == NULL)
+    if (raiz->no_esq == NULL)
     {
       noArv *tmp = raiz->no_dir;
       delete (raiz);
@@ -118,6 +162,11 @@ noArv *removeArvBin(noArv *raiz, no_ *no_lista)
   return raiz;
 }
 
+/**
+ * @brief Imprime a arvore binaria em pre-ordem
+ * 
+ * @param raiz 
+ */
 void pre_ordemBin(noArv *raiz)
 {
   if (raiz != NULL)
@@ -125,5 +174,32 @@ void pre_ordemBin(noArv *raiz)
     cout << raiz->nodeList->pt_dcar->placa << " ";
     pre_ordemBin(raiz->no_esq);
     pre_ordemBin(raiz->no_dir);
+  }
+}
+
+/**
+ * @brief Imprime o relatorio da arvore binaria em pre-ordem
+ * 
+ * @param raiz 
+ */
+void relatorio_preOrdemBin(noArv *raiz)
+{
+  if (raiz != NULL)
+  {
+    cout << left
+         << setw(0) << raiz->nodeList->pt_dcar->placa << " - "
+         << setw(20) << raiz->nodeList->pt_dcar->marca
+         << setw(20) << raiz->nodeList->pt_dcar->modelo
+         << setw(10) << raiz->nodeList->pt_dcar->ano
+         << setw(20) << raiz->nodeList->pt_dcar->cambio
+         << setw(15) << raiz->nodeList->pt_dcar->direcao
+         << setw(10) << raiz->nodeList->pt_dcar->potencia
+         << setw(10) << raiz->nodeList->pt_dcar->tipo
+         << setw(10) << raiz->nodeList->pt_dcar->cor
+         << setw(0) << "R$: "
+         << setw(10) << raiz->nodeList->pt_dcar->valor;
+    cout << "\n";
+    relatorio_preOrdemBin(raiz->no_esq);
+    relatorio_preOrdemBin(raiz->no_dir);
   }
 }

@@ -29,4 +29,6 @@ noArv *arvBinNovoNo(no_ *no_lista);
 
 noArv *removeArvBin(noArv *raiz, no_ *no_lista);
 
+void relatorio_preOrdemBin(noArv *raiz);
+
 #endif /* AROVREBIN_H */
